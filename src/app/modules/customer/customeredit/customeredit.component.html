@@ -1,0 +1,198 @@
+<div class="main-content-inner">
+  <div class="row mt-3 ml-1">
+    <div class="col-lg-11 col-9 mt-0">
+      <h5 class="mt-3 text-muted">
+        Edit Customer
+      </h5>
+    </div>
+  </div>
+  <div class="row ml-3">
+    <span class="text-muted ml-1" style="">
+      Once you've finished updating the customer details, click the submit button to save the changes.
+    </span>
+  </div>
+
+  <div class="row mb-3 mt-4 ml-1">
+    <div class="col-lg-12">
+      <h6> {{customerEditDetails.customercode}} </h6>
+    </div>
+  </div>
+  <div class="col-lg-12 mt-3">
+    <!--<div class="card">
+      <div class="card-body">-->
+    <!--<ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item waves-effect waves-light">
+        <a class="nav-link active " id="mainDetail-tab" data-toggle="tab" href="#mainDetail" role="tab" aria-controls="mainDetail" aria-selected="false">Customer Details</a>
+      </li>-->
+      <!--<li class="nav-item waves-effect waves-light">
+        <a class="nav-link" id="otherDetail-tab" data-toggle="tab" href="#otherDetail" role="tab" aria-controls="otherDetail" aria-selected="false">Other Details</a>
+      </li>-->
+
+    <!--</ul>-->
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane active show" id="mainDetail" role="tabpanel" aria-labelledby="mainDetail-tab">
+        <div class="main-content-inner">
+
+          <div class="row row-customer">
+            <div class="col-lg-12">
+              <!--<div class="card">-->
+              <!--<div class="card-body ">-->
+              <form name="form" #customerForm="ngForm" novalidate>
+
+
+                <div class="row">
+                  <div class="col-lg-4">
+
+                    <div class="form-group">
+                      <label for="example-label-companyName" class="col-form-label"><b>Company Name</b></label>
+
+                      <input class="form-control txt" type="text" value="customerEditDetails.companyname" id="companyname" name="companyname"
+                             placeholder="Enter Company Name" [(ngModel)]="customerEditDetails.companyname" disabled
+                             required>
+                      <small *ngIf="customerForm.controls.companyname.dirty && !customerForm.controls.companyname.valid" class="form-text text-danger">
+                        Company Name is required.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-gstNumber" class="col-form-label"><b>GST Number</b></label>
+                      <input class="form-control txt" type="text" value="customerEditDetails.gstno" id="customergstno" name="customergstno"
+                             placeholder="Enter GST Number" [(ngModel)]="customerEditDetails.gstno">
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-gstNumber" class="col-form-label"><b>Pan Number</b></label>
+                      <input class="form-control txt" type="text" value="customerEditDetails.panno" id="panno" name="customerpanno"
+                             placeholder="Enter Pan Number" [(ngModel)]="customerEditDetails.panno">
+
+                    </div>
+
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="col-form-label"><b>Contact Person</b></label>
+                      <input class="form-control txt" type="text" value="customerEditDetails.contactperson" id="customername"
+                             placeholder="Enter First Name" name="customername" [(ngModel)]="customerEditDetails.contactperson">
+
+                    </div>
+
+                  </div>
+                </div>
+
+
+
+
+                <div class="row mb-3">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-email" class="col-form-label"><b>Customer Email</b></label>
+                      <input class="form-control txt" type="email" value="customerEditDetails.customeremail" id="customeremailid"
+                             placeholder="Enter Email" name="customeremailid" [(ngModel)]="customerEditDetails.customeremail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" />
+
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-mobile" class="col-form-label"><b>Customer Mobile</b></label>
+                      <input class="form-control txt" type="number" value="customerEditDetails.contactnumber" id="contactnumber"
+                             placeholder="Enter Mobile Number" name="customermobileno" [(ngModel)]="customerEditDetails.contactnumber" required />
+
+
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-faxBilling" class="col-form-label"><b>Fax</b></label>
+                      <input class="form-control txt" type="text" value="customerEditDetails.fax" id="fax" name="fax"
+                             [(ngModel)]="customerEditDetails.fax" (keyup)="blurTrackAddress()">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-stateBilling" class="col-form-label"><b>State</b></label>
+                      <ng-select [(ngModel)]="customerEditDetails.stateid" name="stateid" required (click)="blurTrackAddress()">
+                        <ng-option *ngFor="let state of billingStateList" [value]="state.websettingsid">
+                          {{state.value}}
+                        </ng-option>
+                      </ng-select>
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-cityBilling" class="col-form-label"><b>City</b></label>
+                      <input class="form-control txt" type="text" value="customerEditDetails.city" id="city" name="billingcity"
+                             [(ngModel)]="customerEditDetails.city" (keyup)="blurTrackAddress()">
+
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-zipCodeBilling" class="col-form-label"><b>Zip Code</b></label>
+
+                      <input class="form-control txt" type="text" value="customerEditDetails.zipcode" id="zipcode" name="zipcode"
+                             [(ngModel)]="customerEditDetails.zipcode" (keyup)="blurTrackAddress()">
+
+
+
+                    </div>
+                  </div>
+                </div>
+
+
+               
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="example-label-addressBilling1" class="col-form-label"><b>Address1</b></label>
+
+                      <input class="form-control txt" type="text" value="customerEditDetails.addressline1" id="addressline1" name="addressline1"
+                             [(ngModel)]="customerEditDetails.addressline1"  (keyup)="blurTrackAddress()">
+
+                     
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="example-label-addressBilling2" class="col-form-label"><b>Address2</b></label>
+                      <input type="text" class="form-control txt" value="customerEditDetails.addressline2" id="addressline2" name="addressline2"
+                             [(ngModel)]="customerEditDetails.addressline2" (keyup)="blurTrackAddress()">
+
+                    </div>
+                  </div>
+                </div>
+
+
+              </form>
+              <!--</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row mb-6">
+        <div class="col-lg-12">
+          <button type="submit" class="btn btn-success" (click)="customerEditData(customerForm)">Submit</button>
+
+          <button type="submit" class="btn btn-danger ml-3" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!--</div>
+    </div>-->

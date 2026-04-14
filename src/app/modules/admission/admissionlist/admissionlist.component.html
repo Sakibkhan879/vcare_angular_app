@@ -1,0 +1,146 @@
+<div class="main-content-inner">
+  <div class="col-12 mt-5">
+    <div class="row mt-3">
+      <div class="col-lg-10 col-md-9 col-sm-9 mt-0">
+        <h5 class="" style="color:rgba(31, 97, 141);">
+          Admission
+          <br />
+          <small class="text-muted f-70" style="">
+            Get all the details of admissions from the below list.
+          </small>
+        </h5>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-3 mt-2 margin-btn-xs ml-0 pl-0">
+        Add a New Admission Here
+        <!--Download a <a href="../../assets/Import Customers Sample File.xlsx"> sample file</a>-->
+        <br />
+        <div class="row">
+        <button type="submit" class="btn btn-primary btn-xs mb-5 btn-margin ml-3 mt-2" (click)="addAdmissionItem()"><i class="ti-plus"></i>New</button>
+        <!--</div>
+  <div class="col-lg-1 pl-0">-->
+        <!--<div class="input-group">
+    <div class="custom-file">-->
+        <!--<input type="file" class="custom-file-input uploadfile-height" id="inputGroupFile" (change)="openImportModel($event)" [(ngModel)]="customerFileDetail.customerfile">-->
+        <!--<label class="custom-file-label uploadfile-browse-height" for="inputGroupFile">Choose file</label>-->
+        <!--<input type="file" class="file-upload__input" id="customerfile" (change)="openImportModel($event)" [(ngModel)]="customerFileDetail.customerfile">
+  <button class="file-upload__button" type="button">import</button>-->
+        <!--</div>
+  </div>-->
+
+
+        <!--<div class="fileUpload btn btn-primary btn-xs mb-5">
+          <i class="fa fa-file-excel-o mr-1"></i>-->
+
+          <!--<span>Import</span>
+          <input type="file" class="upload" id="customerfile" (change)="openImportModel($event)" [(ngModel)]="customerFileDetail.customerfile" accept=".xlsx, .xls"/>-->
+
+        <!--</div>-->
+          </div>
+      </div>
+    </div>
+
+    <div class="data-tables">
+      <table id="dataTable" class="erp-datatable table-responsive text-center">
+        <thead class="bg-light text-capitalize">
+          <tr>
+            <th style="width:200px;">Admission ID</th>
+            <th style="width:300px;">Admission Name</th>
+            <th style="width:300px;">Contact no</th>
+            <th style="width:250px;">Email</th>
+            <th style="width:250px;">Address</th>
+            <th style="width:200px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let details of admissionDetails;index as i">
+            <td style="width:200px;">{{details.admissioninfoid}}</td>
+            <td style="width:300px;">{{details.admissionname}}</td>
+            <td style="width:300px;">{{details.contactnumber}}</td>
+            <td style="width:250px;">{{details.email}}</td>
+            <td style="width:250px;">{{details.address}}</td>
+            <td style="width:200px;">
+              <ul class="d-flex justify-content-center">
+                <li class="mr-3">
+                  <a href="javascript:void(0)" (click)="editPage(details)"><i class="fa fa-edit"></i></a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" (click)="openDeleteModel(details)"><i class="ti-trash"></i></a>
+                </li>
+
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ngx-smart-modal [customClass]="'nsm-centered'" #deleteModalPopup identifier="deleteModalPopup">
+
+  <div class="modal-content">
+    <div class="row">
+      <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"></div>
+    </div>
+    <div class="modal-body">
+      <h6>Do you want to delete this admission record?</h6>
+    </div>
+    <div class="row mt-3 mb-2">
+      <div class="col-lg-5 col-sm-4 col-md-4 col-xs-4 col-4"></div>
+      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2 col-2">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeRecord()">Close</button>
+      </div>
+      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2 col-2">
+        <button type="button" class="btn btn-primary ml-4 ml-lg-2 ml-md-2" (click)="deleteData()">Confirm</button>
+      </div>
+    </div>
+  </div>
+</ngx-smart-modal>
+
+
+<ngx-smart-modal [customClass]="'nsm-centered'" importAdmissionPopup identifier="importAdmissionPopup" (onClose)="closeImportRecord()">
+
+  <div class="modal-content" >
+    <div class="row">
+      <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"></div>
+    </div>
+    <div class="modal-body">
+
+      <div class="data-tables mt-3">
+        <table id="dataTable" class="erp-datatable table-responsive text-center">
+          <thead class="bg-light text-capitalize" style="height:50px;">
+            <tr>
+              <th style="width:600px;">Column Name</th>
+              <th style="width:600px;">Choose column name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let admission of columnMappingList" class="pt-2">
+              <td style="width:600px;">{{admission.displaytext}}</td>
+              <td style="width:600px;" class="pt-3">
+                <ng-select name="importedadmission" id="importedadmission" style="height:50px;" [(ngModel)]="admission.givenname">
+                  <ng-option *ngFor="let admissiondata of excelHeaderList" [value]="admissiondata">
+                    {{admissiondata}}
+                  </ng-option>
+                </ng-select>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <div class="row mt-3 mb-2">
+      <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 col-4"></div>
+      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2 col-2">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeImportRecord()">Close</button>
+      </div>
+      <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2 col-2">
+        <button type="button" class="btn btn-primary ml-4 ml-lg-2 ml-md-2" (click)="submitAdmissionData()">Continue</button>
+      </div>
+      <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 col-4"></div>
+
+    </div>
+  </div>
+</ngx-smart-modal>

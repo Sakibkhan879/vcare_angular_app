@@ -1,0 +1,121 @@
+
+  <div class="header-area">
+    <div class="row align-items-center">
+      <!-- nav and search button -->
+      <div class="col-md-6 col-sm-8 clearfix">
+        <div class=" nav-btn pull-left">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+
+      <div class="col-md-3 col-sm-8 clearfix">
+        <div class="form-group">
+          <label class="col-form-label">Financial Year</label>
+          <!--</div>
+          <div class="form-group">-->
+          <ng-select [(ngModel)]="yearDetails" name="financialyear" id="financialyear" (change)="financialyearSelectedValue()">
+            <ng-option *ngFor="let year of yearList" [value]="year.financialyearid">
+              {{year.yearvalue}}
+            </ng-option>
+          </ng-select>
+
+        </div>
+      </div>
+      <!-- profile info & task notification -->
+      <div class="col-md-3 col-sm-4 clearfix mt-lg-0 navbar-notification-area">
+        <ul class="notification-area pull-right">
+          <!--<li id="full-view"><i class="ti-fullscreen"></i></li>
+          <li id="full-view-exit"><i class="ti-zoom-out"></i></li>-->
+          <li class="dropdown">
+            <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
+              <span>{{notificationDetails.notificationtotalcount}}</span>
+            </i>
+            <div class="dropdown-menu bell-notify-box notify-box">
+              <span class="notify-title">
+                <a href="javascript:void(0)" class="thumbnail" (click)="goToPage('customernotification')">View All</a>
+                <!--<a href="#">view all</a>-->
+              </span>
+              <div class="nofity-list" *ngFor="let details of notificationList;index as i">
+                <a href="javascript:void(0)" (click)="goToPage('customernotification')">
+
+                  <div class="notify-text">
+                    <p>{{details.shortmessage}}</p>
+                  </div>
+                </a>
+
+
+
+              </div>
+            </div>
+          </li>
+
+          <li class="settings-btn">
+            <i class="ti-settings dropdown-toggle" data-toggle="dropdown"></i>
+            <div class="dropdown-menu settings-box nt-enveloper-box">
+              <span class="settings-title"> <a href="javascript:void(0)" class="thumbnail" (click)="goToPage('customerprofile')">My Profile</a></span>
+              <span class="settings-title"> <a href="javascript:void(0)" class="thumbnail" (click)="openChangePasswordModel()">Change Password</a></span>
+              <span class="settings-title"> <a href="javascript:void(0)" class="thumbnail" (click)="goToPage('logout')">Log Out</a></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <ngx-smart-modal [customClass]="'nsm-centered changepwd-margin'" #changepwdModalPopup identifier="changepwdModalPopup">
+    <form name="form" #navbarForm="ngForm" novalidate>
+      <div class="modal-content">
+
+        <div class="row">
+          <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"></div>
+        </div>
+        <div class="modal-body-changepwd">
+          <h5 class="mb-3 text-center pwd-label-margin">Change Password</h5>
+          <div class="row">
+            <label for="example-label-phoneShipping" class="col-form-label text-primary ml-md-5 ml-3"><b>Old Password</b></label>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 input-icons">
+              <a href="javascript:void(0)" (click)="oldpwd.type=oldpwd.type=='password'?'text':'password'"><i class="fa fa-eye icon"></i></a>
+              <input class="form-control txt input-field" type="password" value="" [(ngModel)]="changepasswordDetails.oldpassword" id="oldpassword" name="oldpassword" #oldpwd required />
+            </div>
+            <div class="col-md-1"></div>
+
+            <small *ngIf="navbarForm.controls.oldpassword.dirty && !navbarForm.controls.oldpassword.valid" class="form-text text-danger  ml-3 mt-0 valid-text">
+              Old Password is required.
+            </small>
+          </div>
+          <div class="row">
+            <label for="example-label-phoneShipping" class="col-form-label text-primary ml-md-5 ml-3"><b>New Password</b></label>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 input-icons">
+              <a href="javascript:void(0)" (click)="adminpassword.type=adminpassword.type=='password'?'text':'password'"><i class="fa fa-eye icon"></i></a>
+              <input class="form-control txt input-field" type="password" value="" [(ngModel)]="changepasswordDetails.adminpassword" id="adminpassword" name="adminpassword" #adminpassword required />
+            </div>
+            <div class="col-md-1"></div>
+            <small *ngIf="navbarForm.controls.adminpassword.dirty && !navbarForm.controls.adminpassword.valid" class="form-text text-danger  ml-3 mt-0 valid-text">
+              New Password is required.
+            </small>
+          </div>
+
+        </div>
+
+        <div class="row mt-3 mb-3">
+          <div class=" col-lg-4 col-sm-4 col-md-4 col-xs-4 col-4"></div>
+          <div class="col-lg-3 col-sm-3 col-md-3 col-xs-3 col-3 ml-2">
+            <button type="button" class="btn btn-primary ml-lg-0" data-dismiss="modal" (click)="submitChangePassword(navbarForm)">Submit</button>
+          </div>
+          <div class=" col-lg-4 col-sm-4 col-md-4 col-xs-4 col-4"></div>
+        </div>
+        </div>
+    </form>
+      </ngx-smart-modal>
+

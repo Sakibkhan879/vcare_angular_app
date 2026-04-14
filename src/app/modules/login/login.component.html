@@ -1,0 +1,104 @@
+<div class="login-area login-s2">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="logo">
+        <a href="javascript:void(0)" (click)="goToLoginPage()"><img src="../../../assets/images/imgs/logo.png"></a>
+      </div>
+    </div>
+    <!-- <div class="col-lg-6"></div> -->
+ 
+  </div>
+  <div class="container">
+    <div class="login-box">
+      <form name="form" #loginForm="ngForm" novalidate>
+        <div class="login-form-head">
+          <h4>Sign In</h4>
+        </div>
+        <div class="login-form-body">
+          <div class="form-gp">
+            <label for="exampleInputUsername" class="text-primary">Username</label>
+            <input type="text" id="username" name="username" [(ngModel)]="loginAddDetails.username" required>
+
+            <i class="ti-email text-primary"></i>
+            <div class="text-danger"></div>
+            <small *ngIf="loginForm.controls.username.dirty && !loginForm.controls.username.valid" class="form-text text-danger">
+              Username is required.
+            </small>
+          </div>
+          <div class="form-gp">
+            <label for="exampleInputPassword1" class="text-primary">Password</label>
+            <input type="password" id="password" name="password" [(ngModel)]="loginAddDetails.password" required>
+            <i class="ti-lock text-primary"></i>
+            <div class="text-danger"></div>
+            <small *ngIf="loginForm.controls.password.dirty && !loginForm.controls.password.valid" class="form-text text-danger">
+              Password is required.
+            </small>
+          </div>
+
+          <div class="row mb-4 rmber-area">
+            <div class="col-6">
+
+            </div>
+            <!--<div class="col-6 text-right">      
+              <a href="javascript:void(0)" class="thumbnail" (click)="forgetPasswordLink()">Forgot Password?</a>
+            </div>-->
+          </div>
+          <div class="submit-btn-area">
+            <button id="form_submit" type="submit" (click)="loginAddData(loginForm)">Submit <i class="ti-arrow-right"></i></button>
+          </div>
+          <!--<div class="form-footer text-center mt-5">
+            <p class="text-muted">Don't have an account?<a (click)="signUpLink()" class="text-primary">Sign Up</a></p>
+          </div>
+          <div class="form-footer text-center mt-2">
+            <p class="text-muted"><a (click)="customerPortal()" class="text-primary">Customer portal</a></p>
+          </div>-->
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<ngx-smart-modal [customClass]="'nsm-centered changepwd-margin'" #forgetPasswordModal identifier="forgetPasswordModal">
+  <form name="form" #forgetPwdForm="ngForm" novalidate>
+    <div class="modal-content">
+
+      <div class="row">
+        <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6"></div>
+      </div>
+      <div class="modal-body-changepwd">
+        <h5 class="mb-3 text-center pwd-label-margin">Forget Password ?</h5>
+
+        <div class="form-forget-pwd mt-5">
+          <label for="exampleInputEmail1" class="text-primary">Enter Username</label>
+          <input type="email" id="username" name="username" [(ngModel)]="forgotPasswordModel.username" required placeholder="Enter username">
+
+          <div class="text-danger"></div>
+          <small *ngIf="forgetPwdForm.controls.username.dirty && !forgetPwdForm.controls.username.valid" class="form-text text-danger">
+            Username is required.
+          </small>
+        </div>
+      </div>
+
+      <div *ngIf="!displayDiv">  
+        <div class="row mt-3 mb-3 ">
+        <div class="col-lg-12 text-center">
+          <button type="button" class="btn btn-primary btn-xs " (click)="verifyUser(forgetPwdForm)">Reset Password</button>
+        </div>
+        </div>
+      </div>
+      </div>
+ 
+    <div *ngIf="displayDiv">
+      <div class="row mt-3 mb-3">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-2">
+          <button type="button" id="sndpass" (click)="sendPassword(forgetPwdForm)">Send Password </button>
+        </div>
+        <div class="col-lg-5"></div>
+      </div>
+    </div>
+</form>
+</ngx-smart-modal>

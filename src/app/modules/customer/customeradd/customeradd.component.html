@@ -1,0 +1,183 @@
+
+<div class="main-content-inner">
+
+  <div class="row mt-3 ml-1">
+    <div class="col-lg-11 col-9 mt-0">
+      <h5 class="mt-3 text-muted">
+        Add New Customer
+      </h5>
+    </div>
+  </div>
+  <div class="row ml-3">
+    <span class="text-muted ml-1">
+      Set up a customer account to keep track of their sales transactions. To gain access to the customer portal, enter their email id as the username and phone no as the password.
+    </span>
+  </div>
+
+  <div class="col-lg-12 mt-4">
+    <!--<ul class="nav " id="myTab" role="tablist">
+      <li class=" waves-effect waves-light">
+        <a class=" " id="mainDetail-tab" data-toggle="tab" href="#mainDetail" role="tab" aria-controls="mainDetail" aria-selected="false">Customer Details</a>
+      </li>-->
+      <!--<li class="nav-item waves-effect waves-light">
+        <a class="nav-link" id="otherDetail-tab" data-toggle="tab" href="#otherDetail" role="tab" aria-controls="otherDetail" aria-selected="false">Other Details</a>
+      </li>-->
+    <!--</ul>-->
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane active show" id="mainDetail" role="tabpanel" aria-labelledby="mainDetail-tab">
+        <div class="main-content-inner">
+
+          <div class="row row-customer">
+            <div class="col-lg-12">
+              <form name="form" #customerForm="ngForm" novalidate>
+
+                <div class="row">
+                  <div class="col-lg-4">
+
+                    <div class="form-group">
+                      <label for="example-label-companyName" class="col-form-label"><b><span class="text-danger mr-1">*</span>Company Name</b></label>
+                      <input class="form-control txt" type="text" value="" id="companyname" name="companyname"
+                             placeholder="Enter Company Name" [(ngModel)]="customerAddDetails.companyname"
+                             required>
+                      <small *ngIf="customerForm.controls.companyname.dirty && !customerForm.controls.companyname.valid" class="form-text text-danger">
+                        Company Name is required.
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-gstNumber" class="col-form-label"><b>GST Number</b></label>
+
+                      <input class="form-control txt" type="text" value="" id="customergstno" name="customergstno"
+                             placeholder="Enter GST Number" [(ngModel)]="customerAddDetails.gstno">
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-gstNumber" class="col-form-label"><b>Pan Number</b></label>
+                      <input class="form-control txt" type="text" value="" id="panno" name="customerpanno"
+                             placeholder="Enter Pan Number" [(ngModel)]="customerAddDetails.panno">
+
+                    </div>
+
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label class="col-form-label"><b> Contact Person</b></label>
+                      <input class="form-control txt" type="text" value="" id="customername"
+                             placeholder="Enter First Name" name="contactperson" [(ngModel)]="customerAddDetails.contactperson">
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-email" class="col-form-label"><b>Customer Email</b></label>
+                      <input class="form-control txt" type="text" value="" id="customeremail"
+                             placeholder="Enter Email" name="customeremailid" [(ngModel)]="customerAddDetails.customeremail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"  />
+
+                      
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-mobile" class="col-form-label"><b>Customer Mobile</b></label>
+                      <input class="form-control txt" type="number" value="" id="contactnumber"
+                             placeholder="Enter Mobile Number" name="customermobileno" [(ngModel)]="customerAddDetails.contactnumber"  />
+                    
+
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-faxBilling" class="col-form-label"><b>Fax</b></label>
+                      <input class="form-control txt" type="text" value="" id="fax" name="fax"
+                             [(ngModel)]="customerAddDetails.fax" (keyup)="blurTrackAddress()">
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-stateBilling" class="col-form-label"><b><span class="text-danger mr-1">*</span>State</b></label>
+                      <ng-select [(ngModel)]="customerAddDetails.stateid" name="stateid"  (click)="blurTrackAddress()">
+                        <ng-option *ngFor="let state of billingStateList" [value]="state.websettingsid">
+                          {{state.value}}
+                        </ng-option>
+                      </ng-select>
+                    
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-cityBilling" class="col-form-label"><b>City</b></label>
+                      <input class="form-control txt" type="text" value="" id="city" name="city"
+                             [(ngModel)]="customerAddDetails.city"  (keyup)="blurTrackAddress()">
+                      
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <label for="example-label-zipCodeBilling" class="col-form-label"><b>Zip Code</b></label>
+                      <input class="form-control txt" type="text" value="" id="zipcode" name="zipcode"
+                             [(ngModel)]="customerAddDetails.zipcode"  (keyup)="blurTrackAddress()" />
+
+                  
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="example-label-addressBilling1" class="col-form-label"><b>Address Line 1</b></label>
+                      <input class="form-control txt" type="text" value="" id="addressline1" name="addressline1"
+                             [(ngModel)]="customerAddDetails.addressline1"  (keyup)="blurTrackAddress()">
+
+                      
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="example-label-addressBilling2" class="col-form-label"><b>Address Line 2</b></label>
+                      <input type="text" class="form-control txt" value="" id="addressline2" name="addressline2"
+                             [(ngModel)]="customerAddDetails.addressline2" (keyup)="blurTrackAddress()">
+
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row mb-6">
+        <div class="col-lg-12">
+          <button type="submit" class="btn btn-success" (click)="customerAddData(customerForm)">Submit</button>
+
+          <button type="submit" class="btn btn-danger ml-3" (click)="cancel()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 

@@ -1,0 +1,220 @@
+<div class="main-content-inner">
+
+  <div class="row mt-3 ml-1">
+    <div class="col-lg-11 col-9 mt-0">
+      <h5 class="mt-3 text-muted">
+        Create Admission
+      </h5>
+    </div>
+  </div>
+
+  <div class="col-lg-12 mt-4">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane active show" id="mainDetail" role="tabpanel">
+        <div class="main-content-inner">
+
+          <form name="form" #admissionForm="ngForm" novalidate>
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0">Student Information</h6>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Academic Year</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt bg-light" type="text" name="academicyear" readonly
+                           [(ngModel)]="admissionAddDetails.academicyear">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Admission Date</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt bg-light" type="text" name="admissiondate" readonly
+                           [(ngModel)]="admissionAddDetails.admissiondate">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Student Name</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="studentname" placeholder="FirstName MiddleName LastName"
+                           [(ngModel)]="admissionAddDetails.studentname" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Date Of Birth</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="date" name="dateofbirth" 
+                           [(ngModel)]="admissionAddDetails.dob" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Gender</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt bg-light" type="text" name="gender" readonly
+                           [(ngModel)]="admissionAddDetails.genderid">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
+                  <div class="col-sm-8">
+                     <ng-select [(ngModel)]="admissionAddDetails.programid" name="programid" placeholder="Select Program" required>
+                        <ng-option *ngFor="let prog of programList" [value]="prog.id">
+                          {{prog.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Nationality</b></label>
+                  <div class="col-sm-8">
+                     <ng-select [(ngModel)]="admissionAddDetails.nationalityid" name="nationalityid" placeholder="Select Nationality" required>
+                        <ng-option *ngFor="let nat of nationalityList" [value]="nat.id">
+                          {{nat.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Admission Type</b></label>
+                  <div class="col-sm-7">
+                     <ng-select [(ngModel)]="admissionAddDetails.admissiontypeid" name="admissiontypeid" placeholder="Select Admission Type" required>
+                        <ng-option *ngFor="let adm of admissionTypeList" [value]="adm.id">
+                          {{adm.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Discount Applicable</b></label>
+                  <div class="col-sm-7">
+                     <ng-select [(ngModel)]="admissionAddDetails.discountapplicable" name="discountapplicable" placeholder="Select Discount Applicable" required>
+                        <ng-option *ngFor="let disc of discountApplicableList" [value]="disc.id">
+                          {{disc.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0">Parent Details</h6>
+            </div>
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Name</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="fathername" placeholder=""
+                           [(ngModel)]="admissionAddDetails.fathername" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b>Mother Name</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="mothername" placeholder=""
+                           [(ngModel)]="admissionAddDetails.mothername">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Mobile No</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="mobileno" placeholder="Mobile Number"
+                           [(ngModel)]="admissionAddDetails.mobileno" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b>Mobile No</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="mobileno" placeholder="Mobile Number"
+                           [(ngModel)]="admissionAddDetails.mobileno">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Father Occupation</b></label>
+                  <div class="col-sm-7">
+                     <ng-select [(ngModel)]="admissionAddDetails.fatheroccupation" name="fatheroccupation" placeholder="Select Father Occupation" required>
+                        <ng-option *ngFor="let occ of fatherOccupationList" [value]="occ.id">
+                          {{occ.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Mother Occupation</b></label>
+                  <div class="col-sm-7">
+                     <ng-select [(ngModel)]="admissionAddDetails.motheroccupation" name="motheroccupation" placeholder="Select Mother Occupation">
+                        <ng-option *ngFor="let occ of motherOccupationList" [value]="occ.id">
+                          {{occ.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+          </form>
+
+        </div>
+      </div>
+
+      <div class="row mb-6 mt-4 pb-4">
+        <div class="col-lg-12 ml-3">
+          <button type="submit" class="btn btn-primary btn-sm" (click)="enquiryAddData(enquiryForm)">Create Enquiry</button>
+          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">Clear</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

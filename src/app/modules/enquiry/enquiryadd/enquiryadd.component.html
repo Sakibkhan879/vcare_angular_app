@@ -1,0 +1,190 @@
+<div class="main-content-inner">
+
+  <div class="row mt-3 ml-1">
+    <div class="col-lg-11 col-9 mt-0">
+      <h5 class="mt-3 text-muted">
+        Create Enquiry
+      </h5>
+    </div>
+  </div>
+
+  <div class="col-lg-12 mt-4">
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane active show" id="mainDetail" role="tabpanel">
+        <div class="main-content-inner">
+
+          <form name="form" #enquiryForm="ngForm" novalidate>
+
+            <div class="p-2 mb-3 mt-3 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0">Enquirer Information</h6>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer Mobile No</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="enquirermobileno" placeholder="Enquirer Mobile Number"
+                           [(ngModel)]="enquiryAddDetails.mobileno" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer Name</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="enquirername" placeholder="Enquirer Name"
+                           [(ngModel)]="enquiryAddDetails.name" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer EmailID</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="email" name="enquireremail" placeholder="Enquirer Email Address"
+                           [(ngModel)]="enquiryAddDetails.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Address</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="enquireraddress" placeholder="Enquirer Address"
+                           [(ngModel)]="enquiryAddDetails.address" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0">Student Information</h6>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Academic Year</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt bg-light" type="text" name="academicyear" readonly
+                           [(ngModel)]="enquiryAddDetails.academicyear">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquiry Date</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt bg-light" type="text" name="enquirydate" readonly
+                           [(ngModel)]="enquiryAddDetails.date">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Student Name</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="studentname" placeholder="FirstName MiddleName LastName"
+                           [(ngModel)]="enquiryAddDetails.studentname" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Date Of Birth</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="date" name="dateofbirth" 
+                           [(ngModel)]="enquiryAddDetails.dob" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Gender</b></label>
+                  <div class="col-sm-8">
+                    <select class="form-control" name="gender" [(ngModel)]="enquiryAddDetails.genderid" required>
+                        <option value="Boy">Boy</option>
+                        <option value="Girl">Girl</option>
+                    </select>
+                </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
+                  <div class="col-sm-8">
+                     <ng-select [(ngModel)]="enquiryAddDetails.programid" name="programid" placeholder="Select Program" required>
+                        <ng-option *ngFor="let prog of programList" [value]="prog.id">
+                          {{prog.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Has any sibling currently enrolled in EuroKids?</b></label>
+                  <div class="col-sm-8 d-flex align-items-center">
+                    <div class="custom-control custom-radio custom-control-inline mr-3">
+                      <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" value="Yes" [(ngModel)]="enquiryAddDetails.hassibling">
+                      <label class="custom-control-label" for="siblingYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="siblingNo" name="hassibling" class="custom-control-input" value="No" [(ngModel)]="enquiryAddDetails.hassibling">
+                      <label class="custom-control-label" for="siblingNo">No</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0">Other Details</h6>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-5 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>How did you come to know about Eurokids?</b></label>
+                  <div class="col-sm-7">
+                     <ng-select [(ngModel)]="enquiryAddDetails.sourceid" name="sourceid" placeholder="Select" required>
+                        <ng-option *ngFor="let src of sourceList" [value]="src.id">
+                          {{src.name}}
+                        </ng-option>
+                     </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+
+      <div class="row mb-6 mt-4 pb-4">
+        <div class="col-lg-12 ml-3">
+          <button type="submit" class="btn btn-primary btn-sm" (click)="enquiryAddData(enquiryForm)">Create Enquiry</button>
+          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">Clear</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
