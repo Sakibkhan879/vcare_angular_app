@@ -143,7 +143,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Has any sibling currently enrolled in EuroKids?</b></label>
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Has any sibling currently enrolled in Vcare?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
                       <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" value="Yes" [(ngModel)]="enquiryEditDetails.hassibling">
@@ -165,7 +165,7 @@
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-5 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>How did you come to know about Eurokids?</b></label>
+                  <label class="col-sm-5 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>How did you come to know about Vcare?</b></label>
                   <div class="col-sm-7">
                     <ng-select [(ngModel)]="enquiryEditDetails.sourceid" name="sourceid" placeholder="Select" required>
                       <ng-option *ngFor="let src of sourceList" [value]="src.id">
