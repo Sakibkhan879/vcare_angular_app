@@ -22,7 +22,7 @@ export class AdmissionService {
   admissionAddPromise(param) {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    param.financialyearid = this.yearData;
+    param.academicyearid = this.yearData;
     var url = this.baseUrl + "api/Admission/CreateNewAdmission";
     return this.http.post<any>(url, param);
   }
@@ -31,32 +31,32 @@ export class AdmissionService {
   admissionListPromise() {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    var obj = { companyid: this.userData.companyid, financialyearid: this.yearData };
-    var url = this.baseUrl + "api/Admission/LoadAllAdmissionsList";
-    return this.http.post<any>(url,obj);
+    var obj = { companyid: this.userData.companyid, academicyearid: this.yearData };
+    var url = this.baseUrl + "api/Admission/LoadAlladmissionList";
+    return this.http.post<any>(url, obj);
   }
 
-admissionLoadDetailsPromise(data) {
+  admissionLoadDetailsPromise(data) {
     this.getUserData();
-    var obj = { admissionid:data, companyid:this.userData.companyid};
-var url = this.baseUrl + "api/Admission/LoadAdmissionDetailsById";
+    var obj = { customerinfoid: data, companyid: this.userData.companyid };
+    var url = this.baseUrl + "api/Enquiry/LoadAdmissionDetailsById";
     return this.http.post<any>(url, obj);
   }
 
   admissionUpdatePromise(obj) {
-    var url = this.baseUrl + "api/Admission/UpdateAdmissionDetailsById";
-    return this.http.post<any>(url,obj);
+    var url = this.baseUrl + "api/Enquiry/UpdateAdmissionDetailsById";
+    return this.http.post<any>(url, obj);
   }
 
   admissionDeletePromise(data) {
-    var url = this.baseUrl + "api/Admission/RemoveAdmissionDetailsById";
-    return this.http.post<any>(url,data);
+    var url = this.baseUrl + "api/Enquiry/RemoveAdmissionDetailsById";
+    return this.http.post<any>(url, data);
   }
 
   admissionListforBillPromise() {
     this.getUserData();
     var obj = { companyid: this.userData.companyid };
-    var url = this.baseUrl + "api/Admission/LoadAllAdmissionsList";
+    var url = this.baseUrl + "api/Admission/LoadAllAdmissionList";
     return this.http.post<any>(url, obj);
   }
 
@@ -70,9 +70,9 @@ var url = this.baseUrl + "api/Admission/LoadAdmissionDetailsById";
   submitAdmissionPromise(data) {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    data.financialyearid = this.yearData;
+    data.academicyearid = this.yearData;
     data.companyid = this.userData.companyid;
-    var url = this.baseUrl + "api/user/UploadAdmissionData";
+    var url = this.baseUrl + "api/user/UploadEnquiryData";
     return this.http.post<any>(url, data);
   }
 
@@ -88,7 +88,7 @@ var url = this.baseUrl + "api/Admission/LoadAdmissionDetailsById";
 
         if (result && result.status && result.data && result.data.length > 0) {
           var rfmscore = result.data[0].rfmscore;
-          var displaytext = "Based on bizman analysis, the admission score for " + data.admissioninfo + " is " + rfmscore.toString() + " out of 9 ";
+          var displaytext = "Based on bizman analysis, the admiission score for " + data.admissioninfo + " is " + rfmscore.toString() + " out of 9 ";
           this.toastr.success(displaytext);
         }
 

@@ -1,159 +1,102 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { UtilityService } from '../../../services/utility.service';
-import { AdmissionService } from '../../../services/admission.service';
 import { ToastrService } from 'ngx-toastr';
-import { ChangeDetectorRef } from '@angular/core';
-import { SubscriptionService } from '../../../services/subscription.service';
+import { AdmissionService } from '../../../services/admission.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { UtilityService } from '../../../services/utility.service';
+// import { EnquiryService } from '../../../services/enquiry.service'; // Uncomment and create this
 
 @Component({
   selector: 'app-admissionadd',
-  templateUrl: './admissionadd.component.html',
-  styleUrls: ['./admissionadd.component.css']
+  templateUrl: './admissionadd.component.html'
+
 })
-export class AdmissionaddComponent {
+export class AdmissionaddComponent implements OnInit {
+  admissionAddDetails: any = {};
+  //enquiryAddDetails: any = {};
+  AdmissionType: any[] = [];
+  programList: any[] = [];
+  sourceList: any[] = [];
+  stateList: any[] = [];
+  batchList: any[] = [];
 
-  salutaionidList: any[] = [];
-  paymentTermList: any[] = [];
-  billingStateList: any[] = [];
-  shippingStateList: any[] = [];
-
-  admissionAddDetails: any = {
-    admissiontypecode: "BUSINESS", sameasbillingaddress: false}
-
-
-  constructor(private _router: Router,
-    private cdr: ChangeDetectorRef, 
+  constructor(
+    private _router: Router,
+    private cdr: ChangeDetectorRef,
     private utilityService: UtilityService,
     private admissionService: AdmissionService,
-    private subscriptionService: SubscriptionService,
-    private toastr: ToastrService) {
-    this.loadStateWebSetting();
-    this.loadSalutaionidWebSetting();
-    this.loadPaymenttermWebSetting();
+    private toastr: ToastrService
+  ) { }
+
+
+  ngOnInit() {
+    this.loadProgramWebSetting();
+    this.loadSourceWebSetting();
+    this.loadStates();
+  }
+  loadStates() {
+    this.stateList = [
+      { id: 1, name: 'Maharashtra' },
+      { id: 2, name: 'Karnataka' },
+      { id: 3, name: 'Gujarat' }
+    ];
+  }
+  getTodayDate(): string {
+    const today = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = monthNames[today.getMonth()];
+    const year = today.getFullYear();
+
+    return `${day}-${month}-${year}`;
   }
 
-
-  customerAddData(form: NgForm)
-  {
-
-
-    this.admissionAddDetails.adminpassword = this.admissionAddDetails.admissionmobileno;
-
-    if (form.valid ) {
-      var addProm = this.admissionService.admissionAddPromise(this.admissionAddDetails)
+  enquiryAddData(form: NgForm) {
+    if (form.valid) {
+      // USE THE ACTUAL API CALL
+      var addProm = this.admissionService.admissionAddPromise(this.admissionAddDetails);
       addProm.subscribe(result => {
         if (result && result.status && result.data) {
-          console.log(result);
           this.toastr.success(result.message);
 
-          for (let key in form.controls) {
-            if (key != "admissiontypecode") {
-              form.controls[key].reset();
-            }
-
-          }
-
-
-          
-
-        }
-        else {
+          // Reset form but keep default locked values
+          form.reset({});
+        } else {
           this.toastr.error(result.message);
         }
-      })
-    }
-    else {
+      });
+    } else {
       this.toastr.error("Please enter all mandatory fields with proper information!");
     }
-    console.log(this.admissionAddDetails);
+  }
+  loadProgramWebSetting() {
+    this.programList = [];
+    // var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAMS');
+    // programProm.subscribe(result => { this.programList = result.data; });
 
+    // Mock Data for UI testing
+    this.programList = [{ id: 1, name: 'PlayGroup' }, { id: 2, name: 'Nursery' }];
   }
 
-  changeAdmissionType(data) {
-    this.admissionAddDetails.admissiontypecode = data;
+  loadSourceWebSetting() {
+    this.sourceList = [];
+    // var sourceProm = this.utilityService.getWebSettingByDomainPromise('LEAD_SOURCE');
+    // sourceProm.subscribe(result => { this.sourceList = result.data; });
+
+    // Mock Data for UI testing
+    this.sourceList = [{ id: 1, name: 'Walk-in' }, { id: 2, name: 'Social Media' }];
   }
 
-
-  loadStateWebSetting()
-  {
-    shippingStateList: [] = [];
-
-    var stateShippingProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    stateShippingProm.subscribe(result => {
-      this.shippingStateList = result.data;
-    });
-
-      
-   
-    var stateBillingProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    stateBillingProm.subscribe(result => {
-      this.billingStateList = result.data; 
-      console.log(this.billingStateList, 'this.billingStateList');
-    });
-
-
-
-
-  }
-
-  loadSalutaionidWebSetting() {
-    salutaionidList: [] = [];
-    var salutaionidProm = this.utilityService.getWebSettingByDomainPromise('SALUTAION');
-    salutaionidProm.subscribe(result => {
-      this.salutaionidList = result.data;
-      console.log(result.data);
-    });
-  }
-
-  trackAddress() {
-    this.admissionAddDetails.sameasbillingaddress = !this.admissionAddDetails.sameasbillingaddress;
-    if (this.admissionAddDetails.sameasbillingaddress == true) {
-      this.admissionAddDetails.shippingstateid = this.admissionAddDetails.billingstateid;
-      this.admissionAddDetails.shippingstatename = this.admissionAddDetails.billingstatename;
-      this.admissionAddDetails.shippingcity = this.admissionAddDetails.billingcity;
-      this.admissionAddDetails.shippingpostalcode = this.admissionAddDetails.billingpostalcode;
-      this.admissionAddDetails.shippingphoneno = this.admissionAddDetails.billingphoneno;
-      this.admissionAddDetails.shipppingfaxno = this.admissionAddDetails.billingfaxno;
-      this.admissionAddDetails.shippingaddressline1 = this.admissionAddDetails.billingaddressline1;
-      this.admissionAddDetails.shippingaddressline2 = this.admissionAddDetails.billingaddressline2;
-      this.cdr.detectChanges();
-    }
-    else {
-      this.admissionAddDetails.shippingstateid = null;
-      this.admissionAddDetails.shippingstatename ="";
-      this.admissionAddDetails.shippingcity = "";
-      this.admissionAddDetails.shippingpostalcode = "";
-      this.admissionAddDetails.shippingphoneno = "";
-      this.admissionAddDetails.shipppingfaxno = "";
-      this.admissionAddDetails.shippingaddressline1 = "";
-      this.admissionAddDetails.shippingaddressline2 = "";
-    }    
-  }
-
-  blurTrackAddress() {
-    if (this.admissionAddDetails.sameasbillingaddress == true) {
-      this.admissionAddDetails.shippingstateid = this.admissionAddDetails.billingstateid;
-      this.admissionAddDetails.shippingstatename = this.admissionAddDetails.billingstatename;
-      this.admissionAddDetails.shippingcity = this.admissionAddDetails.billingcity;
-      this.admissionAddDetails.shippingpostalcode = this.admissionAddDetails.billingpostalcode;
-      this.admissionAddDetails.shippingphoneno = this.admissionAddDetails.billingphoneno;
-      this.admissionAddDetails.shipppingfaxno = this.admissionAddDetails.billingfaxno;
-      this.admissionAddDetails.shippingaddressline1 = this.admissionAddDetails.billingaddressline1;
-      this.admissionAddDetails.shippingaddressline2 = this.admissionAddDetails.billingaddressline2;
-      this.cdr.detectChanges();
-    }
-  }
-
-  loadPaymenttermWebSetting()
-  {
-    paymentTermList: [] = [];
-    var paymenttermProm = this.utilityService.getWebSettingByDomainPromise('PAYMENT_TERM');
-    paymenttermProm.subscribe(result => {
-      this.paymentTermList = result.data;
-      console.log(result.data);
-    });
+  clear() {
+    // Reset but keep the default locked values
+    this.admissionAddDetails = {
+      academicyearid: '',
+      enquirydate: '',
+      gender: '',
+      hassibling: ''
+    };
   }
 
   cancel() {

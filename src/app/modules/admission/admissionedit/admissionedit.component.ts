@@ -1,159 +1,108 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AdmissionService } from '../../../services/admission.service';
 import { UtilityService } from '../../../services/utility.service';
+
 @Component({
   selector: 'app-admissionEdit',
-  templateUrl: './admissionedit.component.html',
-  styleUrls: ['./admissionedit.component.css']
+  templateUrl: './admissionedit.component.html'
 })
-export class AdmissioneditComponent implements AfterViewInit {
-  Admissionid: any;
-  Companyid: any;
-  salutaionidList: any[] = [];
-  paymentTermList: any[] = [];
-  billingStateList: any[] = [];
-  shippingStateList: any[] = [];
+export class AdmissioneditComponent implements OnInit, AfterViewInit {
+  Admissioninfoid: any;
 
+  // Object to hold the form data
+  admissionEditDetails: any = {};
 
+  // Arrays to hold dropdown options (Required by HTML)
+  programList: any[] = [];
+  AdmissionType: any[] = [];
+  stateList: any[] = [];
+  batchList: any[] = [];
 
-  admissionEditDetails: any = { }
-
-  constructor(private _router: Router,
+  constructor(
+    private _router: Router,
     private route: ActivatedRoute,
-    private customerService: AdmissionService,
+    private admissionService: AdmissionService,
     private toastr: ToastrService,
     public cdr: ChangeDetectorRef,
-    private utilityService: UtilityService, 
-    private admissionService: AdmissionService)
-  {
-    this.loadStateWebSetting();
-    this.loadSalutaionidWebSetting();
-    this.loadPaymenttermWebSetting();
+    private utilityService: UtilityService
+  ) { }
+
+  ngOnInit() {
+    // Load dropdown data when the component initializes
+    this.loadDropdownData();
   }
 
-  loadStateWebSetting() {
-    shippingStateList: [] = [];
-    var stateShippingProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    stateShippingProm.subscribe(result => {
-      this.shippingStateList = result.data;
-    });
-    billingStateList: [] = [];
-    var stateBillingProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    stateBillingProm.subscribe(result => {
-      this.billingStateList = result.data;
-    });
-  }
-
-  loadSalutaionidWebSetting() {
-    salutaionidList: [] = [];
-    var salutaionidProm = this.utilityService.getWebSettingByDomainPromise('SALUTAION');
-    salutaionidProm.subscribe(result => {
-      this.salutaionidList = result.data;
-      console.log(result.data);
-    });
-  }
-
-  loadPaymenttermWebSetting() {
-    paymentTermList: [] = [];
-    var paymenttermProm = this.utilityService.getWebSettingByDomainPromise('PAYMENT_TERM');
-    paymenttermProm.subscribe(result => {
-      this.paymentTermList = result.data;
-      console.log(result.data);
-    });
-  }
-
-  admissionEditData(form: NgForm) {
-    if (form.valid) {
-      var addProm = this.admissionService.admissionUpdatePromise(this.admissionEditDetails)
-      addProm.subscribe(result => {
-        if (result && result.status && result.data) {
-          console.log(result);
-          this.toastr.success(result.message);
-          location.reload();
-        }
-        else {
-
-          this.toastr.error(result.message);
-        }
-      })
-    }
-    else {
-      this.toastr.error("Please enter all mandatory fields with proper information!");
-    }
-    console.log(this.admissionEditDetails);
-
-  }
-
- 
- 
   ngAfterViewInit() {
-    this.route.queryParams
-      .subscribe(params => {
-        console.log(params);
-        this.Admissionid = params.admissionid;
-        this.customerLoadDetails();
-      })
+    // Grab the ID from the URL parameters and load the student's data
+    this.route.queryParams.subscribe(params => {
+      if (params.admissioninfoid) {
+        this.Admissioninfoid = params.admissioninfoid;
+        this.loadAdmissionDetails();
+      }
+    });
   }
 
+  // --- API CALLS TO LOAD DATA ---
 
-  trackAddress() {
-    this.admissionEditDetails.sameasbillingaddress = !this.admissionEditDetails.sameasbillingaddress;
+  loadDropdownData() {
+    // Example: Replace these with your actual API calls to populate the dropdowns
 
-    if (this.admissionEditDetails.sameasbillingaddress == true) {
-      this.admissionEditDetails.shippingstateid = this.admissionEditDetails.billingstateid;
-      this.admissionEditDetails.shippingstatename = this.admissionEditDetails.billingstatename;
-      this.admissionEditDetails.shippingcity = this.admissionEditDetails.billingcity;
-      this.admissionEditDetails.shippingpostalcode = this.admissionEditDetails.billingpostalcode;
-      this.admissionEditDetails.shippingphoneno = this.admissionEditDetails.billingphoneno;
-      this.admissionEditDetails.shipppingfaxno = this.admissionEditDetails.billingfaxno;
-      this.admissionEditDetails.shippingaddressline1 = this.admissionEditDetails.billingaddressline1;
-      this.admissionEditDetails.shippingaddressline2 = this.admissionEditDetails.billingaddressline2;
-    }
-    else
-    {
-      this.admissionEditDetails.shippingstateid = null;
-      this.admissionEditDetails.shippingstatename ="";
-      this.admissionEditDetails.shippingcity = "";
-      this.admissionEditDetails.shippingpostalcode = "";
-      this.admissionEditDetails.shippingphoneno = "";
-      this.admissionEditDetails.shipppingfaxno = "";
-      this.admissionEditDetails.shippingaddressline1 = "";
-      this.admissionEditDetails.shippingaddressline2 = "";
-    }
+    // State List
+    this.utilityService.getWebSettingByDomainPromise('STATE').subscribe(result => {
+      this.stateList = result.data || [];
+    });
+
+    // Program List (Add your specific API call here)
+    // this.utilityService.getWebSettingByDomainPromise('PROGRAM').subscribe(result => {
+    //   this.programList = result.data || [];
+    // });
+
+    // Admission Type List (Add your specific API call here)
+    // this.utilityService.getWebSettingByDomainPromise('ADMISSION_TYPE').subscribe(result => {
+    //   this.AdmissionType = result.data || [];
+    // });
+
+    // Batch List (Add your specific API call here)
+    // this.utilityService.getWebSettingByDomainPromise('BATCH').subscribe(result => {
+    //   this.batchList = result.data || [];
+    // });
   }
 
-
-  blurTrackAddress() {
-    this.admissionEditDetails.shippingstateid = this.admissionEditDetails.billingstateid;
-    this.admissionEditDetails.shippingstatename = this.admissionEditDetails.billingstatename;
-    this.admissionEditDetails.shippingcity = this.admissionEditDetails.billingcity;
-    this.admissionEditDetails.shippingpostalcode = this.admissionEditDetails.billingpostalcode;
-    this.admissionEditDetails.shippingphoneno = this.admissionEditDetails.billingphoneno;
-    this.admissionEditDetails.shipppingfaxno = this.admissionEditDetails.billingfaxno;
-    this.admissionEditDetails.shippingaddressline1 = this.admissionEditDetails.billingaddressline1;
-    this.admissionEditDetails.shippingaddressline2 = this.admissionEditDetails.billingaddressline2;
-    this.cdr.detectChanges();
-  }
-
-  customerLoadDetails() 
-  {
-
-    var loadProm = this.admissionService.admissionLoadDetailsPromise(this.Admissionid)
+  loadAdmissionDetails() {
+    const loadProm = this.admissionService.admissionLoadDetailsPromise(this.Admissioninfoid);
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
         this.admissionEditDetails = result.data[0];
-        console.log(result.data,'result');
-        this.cdr.markForCheck();
+        console.log('Loaded Data:', this.admissionEditDetails);
+        this.cdr.markForCheck(); // Manually trigger change detection
+      } else {
+        this.toastr.error('Failed to load admission details.');
       }
-
-    })
-
+    });
   }
 
-  cancel() {
+  // --- FORM ACTIONS ---
+
+  updateAdmission(form: NgForm) {
+    if (form.valid) {
+      const addProm = this.admissionService.admissionUpdatePromise(this.admissionEditDetails);
+      addProm.subscribe(result => {
+        if (result && result.status && result.data) {
+          this.toastr.success(result.message || 'Admission updated successfully!');
+          this._router.navigate(['app/admission']); // Redirect back to list after success
+        } else {
+          this.toastr.error(result.message || 'Error updating admission.');
+        }
+      });
+    } else {
+      this.toastr.error("Please enter all mandatory fields with proper information!");
+    }
+  }
+
+  cancelEdit() {
     this._router.navigate(['app/admission']);
   }
 }

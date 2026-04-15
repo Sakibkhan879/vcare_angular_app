@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+
+// Ensure these components exist in your folder structure
 import { AdmissionaddComponent } from './admissionadd/admissionadd.component';
 import { AdmissioneditComponent } from './admissionedit/admissionedit.component';
 import { AdmissionlistComponent } from './admissionlist/admissionlist.component';
@@ -13,7 +15,6 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
     AdmissionaddComponent,
     AdmissioneditComponent,
     AdmissionlistComponent
-
   ],
   imports: [
     CommonModule,

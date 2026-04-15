@@ -1,62 +1,81 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { EnquiryService } from '../../../services/enquiry.service';
-// import { EnquiryService } from '../../../services/enquiry.service';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
-  selector: 'app-enquiryedit',
+  selector: 'app-enquiryEdit',
   templateUrl: './enquiryedit.component.html'
 })
-export class EnquiryeditComponent implements AfterViewInit {
+export class EnquiryeditComponent implements OnInit, AfterViewInit {
   Enquiryinfoid: any;
-  programList: any[] = [];
   sourceList: any[] = [];
-  
+
+  // Object to hold the form data
   enquiryEditDetails: any = {};
+
+  // Arrays to hold dropdown options (Required by HTML)
+  programList: any[] = [];
+  AdmissionType: any[] = [];
+  stateList: any[] = [];
+  batchList: any[] = [];
 
   constructor(
     private _router: Router,
     private route: ActivatedRoute,
-    private enquiryService: EnquiryService,
+    private admissionService: EnquiryService,
     private toastr: ToastrService,
-    public cdr: ChangeDetectorRef
-  ) {
-    this.loadProgramWebSetting();
-    this.loadSourceWebSetting();
+    public cdr: ChangeDetectorRef,
+    private utilityService: UtilityService
+  ) { }
+
+  ngOnInit() {
+    this.loadDropdownData();
   }
 
   ngAfterViewInit() {
     this.route.queryParams.subscribe(params => {
-      this.Enquiryinfoid = params.enquiryinfoid;
-      if(this.Enquiryinfoid) {
-        this.enquiryLoadDetails();
+      if (params.enquiryinfoid) {
+        this.Enquiryinfoid = params.enquiryinfoid;
+        this.loadEnquiryDetails();
       }
     });
   }
 
-  enquiryLoadDetails() {
-    // USE ACTUAL LOAD API
-    var loadProm = this.enquiryService.enquiryLoadDetailsPromise(this.Enquiryinfoid);
+
+  loadDropdownData() {
+    this.utilityService.getWebSettingByDomainPromise('STATE').subscribe(result => {
+      this.stateList = result.data || [];
+    });
+
+  }
+
+  loadEnquiryDetails() {
+    const loadProm = this.admissionService.enquiryLoadDetailsPromise(this.Enquiryinfoid);
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
         this.enquiryEditDetails = result.data[0];
+        console.log('Loaded Data:', this.enquiryEditDetails);
         this.cdr.markForCheck();
+      } else {
+        this.toastr.error('Failed to load enquiry details.');
       }
     });
   }
 
-  enquiryEditData(form: NgForm) {
+  // --- FORM ACTIONS ---
+
+  updateEnquiry(form: NgForm) {
     if (form.valid) {
-      // USE ACTUAL UPDATE API
-      var updateProm = this.enquiryService.enquiryUpdatePromise(this.enquiryEditDetails);
-      updateProm.subscribe(result => {
+      const addProm = this.admissionService.enquiryUpdatePromise(this.enquiryEditDetails);
+      addProm.subscribe(result => {
         if (result && result.status && result.data) {
-          this.toastr.success(result.message);
-          this._router.navigate(['app/enquiry']); // Redirect back to list on success
+          this.toastr.success(result.message || 'Enquiry updated successfully!');
+          this._router.navigate(['app/enquiry']);
         } else {
-          this.toastr.error(result.message);
+          this.toastr.error(result.message || 'Error updating enquiry.');
         }
       });
     } else {
@@ -64,15 +83,7 @@ export class EnquiryeditComponent implements AfterViewInit {
     }
   }
 
-  loadProgramWebSetting() {
-    this.programList = [{ id: 1, name: 'PlayGroup' }, { id: 2, name: 'Nursery' }]; // Mock
-  }
-
-  loadSourceWebSetting() {
-    this.sourceList = [{ id: 1, name: 'Walk-in' }, { id: 2, name: 'Social Media' }]; // Mock
-  }
-
-  cancel() {
+  cancelEdit() {
     this._router.navigate(['app/enquiry']);
   }
 }

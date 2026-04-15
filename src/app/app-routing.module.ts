@@ -7,6 +7,7 @@ import { AuthComponent } from './boot/auth/auth.component';
 import { CustomerportalmainComponent } from './boot/customerportalmain/customerportalmain.component';
 import { CustomerportalauthComponent } from './boot/customerportalauth/customerportalauth.component';
 import { AuthGuard } from './services/authguard.service';
+import { AdmissionModule } from './modules/admission/admission.module';
 
 
 
@@ -82,7 +83,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), AdmissionModule,],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
