@@ -156,13 +156,7 @@ export class EnquirylistComponent implements AfterViewInit {
   currentEnquiry: any = {};
   
   // Dashboard Stats
-  enquiryStats: any = {
-    playgroup: 0,
-    nursery: 0,
-    euroJunior: 0,
-    euroSenior: 0,
-    total: 0
-  };
+  enquiryStats: any = [];
 
   // Import/Excel Variables
   excelHeaderList: any[] = [];
@@ -269,23 +263,24 @@ export class EnquirylistComponent implements AfterViewInit {
         // Load the table data
         this.enquiryDetails = result.data;
 
-        // Calculate the stats dynamically
-        this.enquiryStats.total = this.enquiryDetails.length;
-        this.enquiryStats.playgroup = this.enquiryDetails.filter(x => x.programname === 'PlayGroup').length;
-        this.enquiryStats.nursery = this.enquiryDetails.filter(x => x.programname === 'Nursery').length;
-        this.enquiryStats.euroJunior = this.enquiryDetails.filter(x => x.programname === 'Euro Junior').length;
-        this.enquiryStats.euroSenior = this.enquiryDetails.filter(x => x.programname === 'Euro Senior').length;
 
         this.cdr.detectChanges();
 
       } else {
-        // Reset stats if empty
-        this.enquiryStats = { playgroup: 0, nursery: 0, euroJunior: 0, euroSenior: 0, total: 0 };
+
         this.toastr.warning("No Enquiry Found");
       }
       
       if ($('.erp-datatable').length) {
         $('.erp-datatable').DataTable({ "ordering": false });
+      }
+    });
+
+    var statsProm = this.enquiryService.enquiryStatsPromise();
+    statsProm.subscribe(result => {
+      if (result && result.status && result.data && result.data.length > 0) {
+
+        this.enquiryStats = result.data;
       }
     });
   }

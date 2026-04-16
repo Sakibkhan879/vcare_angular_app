@@ -11,6 +11,7 @@ declare var $;
 export class EnquiryService {
   userData: any = {};
   yearData: any = {};
+  companymasterid = 0;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -22,7 +23,8 @@ export class EnquiryService {
   enquiryAddPromise(param) {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    param.financialyearid = this.yearData;
+    param.academicyearid = this.yearData;
+    param.companymasterid = this.companymasterid;
     var url = this.baseUrl + "api/Enquiry/CreateNewEnquiry";
     return this.http.post<any>(url, param);
   }
@@ -31,16 +33,15 @@ export class EnquiryService {
   enquiryListPromise() {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    var obj = { companyid: this.userData.companyid, financialyearid: this.yearData };
-    var url = this.baseUrl + "api/Enquiry/LoadAllEnquiriesList";
+    var obj = { companymasterid: this.companymasterid, academicyearid: this.yearData };
+    var url = this.baseUrl + "api/Enquiry/LoadAllEnquiryList";
     return this.http.post<any>(url,obj);
   }
 
   enquiryLoadDetailsPromise(data) {
     this.getUserData();
-    var obj = { customerinfoid:data, companyid:this.userData.companyid};
     var url = this.baseUrl + "api/Enquiry/LoadEnquiryDetailsById";
-    return this.http.post<any>(url, obj);
+    return this.http.post<any>(url, data);
   }
 
   enquiryUpdatePromise(obj) {
@@ -53,19 +54,17 @@ export class EnquiryService {
     return this.http.post<any>(url,data);
   }
 
-  enquiryListforBillPromise() {
+
+
+  enquiryStatsPromise() {
     this.getUserData();
-    var obj = { companyid: this.userData.companyid };
-    var url = this.baseUrl + "api/Enquiry/LoadAllEnquiriesList";
+    this.yearData = localStorage["yeardata"];
+    var obj = { companymasterid: this.companymasterid, academicyearid: this.yearData };
+    var url = this.baseUrl + "api/Enquiry/LoadEnquiryMetrics";
     return this.http.post<any>(url, obj);
   }
 
-  getEnquiryList(param) {
-    var obj = { columndomain: param };
-    var url = this.baseUrl + "api/product/MapColumnName";
-    return this.http.post<any>(url, obj);
 
-  }
 
   submitEnquiryPromise(data) {
     this.getUserData();
@@ -76,33 +75,19 @@ export class EnquiryService {
     return this.http.post<any>(url, data);
   }
 
-  fetchRfmScore(data) {
-    var urlfinal = this.baseUrl + "api/recommendation/FetchRfmScore";
-    $.ajax({
-      type: 'POST',
-      url: urlfinal,
-      data: data,
-      headers: {
-        Authorization: localStorage["stockmtoken"]
-      }, success: (result) => {
-
-        if (result && result.status && result.data && result.data.length > 0) {
-          var rfmscore = result.data[0].rfmscore;
-          var displaytext = "Based on bizman analysis, the customer score for " + data.customerinfo + " is " + rfmscore.toString() + " out of 9 ";
-          this.toastr.success(displaytext);
-        }
-
-      },
-      error: (result2) => {
-      }
-    })
-
-
-  }
+  
 
   getUserData() {
     if (localStorage["userdata"]) {
       this.userData = JSON.parse(localStorage["userdata"]);
+
     }
+
+    if (localStorage["companymasterid"]) {
+      this.companymasterid = JSON.parse(localStorage["companymasterid"]);
+
+    }
+
+
   }
 }

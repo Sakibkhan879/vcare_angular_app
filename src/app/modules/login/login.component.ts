@@ -30,7 +30,7 @@ export class LoginComponent implements AfterViewInit, OnInit{
     /* Its to check whether year details are present in local storage or not ,if year details are not present in local storage then it will
     give year details by filtering on financial year list*/
     if (!localStorage["yeardata"]) {
-      var financialYearPromise = this.utilityService.LoadFinancialYearList('FINANCIAL_YEAR').toPromise();
+      var financialYearPromise = this.utilityService.LoadAcademicYearList('FINANCIAL_YEAR').toPromise();
       var financialYearList = await financialYearPromise;
       if (financialYearList && financialYearList.status && financialYearList.data.length > 0)
         localStorage["yeardata"] = financialYearList.data.filter(x => { if (x.iscurrentyear) return true; })[0].financialyearid;

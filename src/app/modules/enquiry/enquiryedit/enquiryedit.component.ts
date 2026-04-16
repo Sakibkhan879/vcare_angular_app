@@ -44,6 +44,25 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     });
   }
 
+  loadProgramWebSetting() {
+    this.programList = [];
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('STATE');
+    programProm.subscribe(result => {
+      this.programList = result.data;
+    });
+
+  }
+
+  loadSourceWebSetting() {
+    this.sourceList = [];
+    var sourceProm = this.utilityService.getWebSettingByDomainPromise('STATE');
+    sourceProm.subscribe(result => {
+      this.sourceList = result.data;
+    });
+
+  }
+
 
   loadDropdownData() {
     this.utilityService.getWebSettingByDomainPromise('STATE').subscribe(result => {

@@ -57,7 +57,7 @@
                    id="financialyear"
                    (change)="financialyearSelectedValue()">
           <ng-option *ngFor="let year of yearList"
-                     [value]="year.financialyearid">
+                     [value]="year.academicyearid">
             {{ year.yearvalue }}
           </ng-option>
         </ng-select>

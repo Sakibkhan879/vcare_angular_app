@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 import { EnquiryaddComponent } from './enquiryadd/enquiryadd.component';
 import { EnquiryeditComponent } from './enquiryedit/enquiryedit.component';
 import { EnquirylistComponent } from './enquirylist/enquirylist.component';
-
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
 
@@ -21,6 +21,7 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
     CommonModule,
     FormsModule,
     NgSelectModule,
+    DatePickerModule,
     NgxSmartModalModule,
     ReactiveFormsModule,
     RouterModule.forChild([

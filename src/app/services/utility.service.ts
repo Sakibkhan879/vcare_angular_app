@@ -20,9 +20,9 @@ export class UtilityService {
     var url = this.baseUrl + "api/websettings/WebsettingList";
     return this.http.post<any>(url, obj);
   }
-  LoadFinancialYearList(param) {
+  LoadAcademicYearList(param) {
     var obj = { domain: param };
-    var url = this.baseUrl + "api/websettings/LoadFinancialYearList";
+    var url = this.baseUrl + "api/websettings/LoadAcademicYearList";
     return this.http.post<any>(url,obj);
   }
 

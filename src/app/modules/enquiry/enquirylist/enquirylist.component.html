@@ -1,37 +1,14 @@
 <div class="main-content-inner">
   <div class="col-12 mt-4">
     
-    <div class="row mb-4 text-center">
-  <div class="col">
-    <div class="card shadow-sm border-0">
-      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">PlayGroup</div>
-      <div class="card-body py-2"><h5>{{ enquiryStats?.playgroup || 0 }}</h5></div>
+    <div class="row mb-4 text-center" *ngIf="enquiryStats.length > 0" >
+  <div class="col-md-3" *ngFor="let x of enquiryStats">
+    <div class="card shadow-sm border-0" >
+      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">{{x.program}}</div>
+      <div class="card-body py-2"><h5>{{ x.programcount || 0 }}</h5></div>
     </div>
   </div>
-  <div class="col">
-    <div class="card shadow-sm border-0">
-      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">Nursery</div>
-      <div class="card-body py-2"><h5>{{ enquiryStats?.nursery || 0 }}</h5></div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card shadow-sm border-0">
-      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">Junior</div>
-      <div class="card-body py-2"><h5>{{ enquiryStats?.euroJunior || 0 }}</h5></div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card shadow-sm border-0">
-      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">Senior</div>
-      <div class="card-body py-2"><h5>{{ enquiryStats?.euroSenior || 0 }}</h5></div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card shadow-sm border-0">
-      <div class="card-header text-white font-weight-bold" style="background-color: #e5933f;">Total Enquiry</div>
-      <div class="card-body py-2"><h5>{{ enquiryStats?.total || 0 }}</h5></div>
-    </div>
-  </div>
+
 </div>
 
     <div class="row mt-3">
@@ -51,10 +28,8 @@
           <tr>
             <th>Student Name</th>
             <th>Enquirer Name</th>
-            <th>Enquirer Contact</th>
-            <th>Stage</th>
-            <th>Sub Stage</th>
-            <th>Next Follow Up</th>
+            <th>Contact No</th>
+            <th>Date</th>
             <th>Last Contacted</th>
             <th style="width:100px;">Action</th>
           </tr>
@@ -62,11 +37,9 @@
         <tbody>
           <tr *ngFor="let details of enquiryDetails; index as i">
             <td>{{details.studentname}}</td>
-            <td>{{details.name}}</td>
+            <td>{{details.fullname}}</td>
             <td>{{details.mobileno}}</td>
-            <td>{{details.stage}}</td>
-            <td>{{details.substage}}</td>
-            <td>{{details.nextfollowup}}</td>
+            <td>{{details.enquirydate}}</td>
             <td>{{details.lastcontacted}}</td>
             <td>
               <ul class="d-flex justify-content-center list-unstyled mb-0">

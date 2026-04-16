@@ -151,12 +151,12 @@ checkCompanySelection() {
   }
 }
   loadYearWebSetting() {
-    var yearProm = this.utilityService.LoadFinancialYearList({});
+    var yearProm = this.utilityService.LoadAcademicYearList({});
     yearProm.subscribe(result => {
       this.yearList = result.data;
       if (!localStorage["yeardata"]) {
-        this.yearDetails = this.yearList[0].financialyearid;
-        localStorage["yeardata"] = this.yearList[0].financialyearid;
+        this.yearDetails = this.yearList[0].academicyearid;
+        localStorage["yeardata"] = this.yearList[0].academicyearid;
       }
       // Load company list after year data is loaded
       this.loadcustomerlist(this.yearDetails);

@@ -9,6 +9,7 @@ import { AdmissioneditComponent } from './admissionedit/admissionedit.component'
 import { AdmissionlistComponent } from './admissionlist/admissionlist.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NgxSmartModalModule } from 'ngx-smart-modal';
     NgSelectModule,
     NgxSmartModalModule,
     ReactiveFormsModule,
+    DatePickerModule,
     RouterModule.forChild([
       { path: 'add', component: AdmissionaddComponent },
       { path: 'edit', component: AdmissioneditComponent },

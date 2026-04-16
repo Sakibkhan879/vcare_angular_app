@@ -15,6 +15,7 @@ export class EnquiryaddComponent implements OnInit {
 
   programList: any[] = [];
   sourceList: any[] = [];
+  genderList: any[] = [];
 
   // Default values mapped to the UI in your screenshot
   enquiryAddDetails: any = { };
@@ -29,8 +30,7 @@ export class EnquiryaddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadProgramWebSetting();
-    this.loadSourceWebSetting();
+    this.loadWebSetting();
   }
   getTodayDate(): string {
     const today = new Date();
@@ -60,31 +60,34 @@ export class EnquiryaddComponent implements OnInit {
       this.toastr.error("Please enter all mandatory fields with proper information!");
     }
   }
-  loadProgramWebSetting() {
-    this.programList = [];
-    // var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAMS');
-    // programProm.subscribe(result => { this.programList = result.data; });
-    
-    // Mock Data for UI testing
-    this.programList = [{ id: 1, name: 'PlayGroup' }, { id: 2, name: 'Nursery' }];
-  }
 
-  loadSourceWebSetting() {
+
+  loadWebSetting() {
     this.sourceList = [];
-    // var sourceProm = this.utilityService.getWebSettingByDomainPromise('LEAD_SOURCE');
-    // sourceProm.subscribe(result => { this.sourceList = result.data; });
+    var sourceProm = this.utilityService.getWebSettingByDomainPromise('REFERAL');
+    sourceProm.subscribe(result => {
+      this.sourceList = result.data;
+    });
 
-    // Mock Data for UI testing
-    this.sourceList = [{ id: 1, name: 'Walk-in' }, { id: 2, name: 'Social Media' }];
+    this.programList = [];
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAM');
+    programProm.subscribe(result => {
+      this.programList = result.data;
+    });
+
+    this.genderList = [];
+
+    var genderProm = this.utilityService.getWebSettingByDomainPromise('GENDER');
+    genderProm.subscribe(result => {
+      this.genderList = result.data;
+    });
+
   }
 
   clear() {
     // Reset but keep the default locked values
     this.enquiryAddDetails = {
-      academicyear: 'Apr 25 - Mar 26',
-      enquirydate: '09-Apr-2026', 
-      gender: 'Boy',
-      hassibling: 'No'
     };
   }
 

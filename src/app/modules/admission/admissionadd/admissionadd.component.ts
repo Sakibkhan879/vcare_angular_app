@@ -16,11 +16,13 @@ import { UtilityService } from '../../../services/utility.service';
 export class AdmissionaddComponent implements OnInit {
   admissionAddDetails: any = {};
   //enquiryAddDetails: any = {};
-  AdmissionType: any[] = [];
+  occupationList: any[] = [];
   programList: any[] = [];
   sourceList: any[] = [];
   stateList: any[] = [];
   batchList: any[] = [];
+  typeList = [];
+  genderList = [];
 
   constructor(
     private _router: Router,
@@ -32,9 +34,7 @@ export class AdmissionaddComponent implements OnInit {
 
 
   ngOnInit() {
-    this.loadProgramWebSetting();
-    this.loadSourceWebSetting();
-    this.loadStates();
+    this.loadWebSetting();
   }
   loadStates() {
     this.stateList = [
@@ -53,7 +53,49 @@ export class AdmissionaddComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
-  enquiryAddData(form: NgForm) {
+  loadWebSetting() {
+    this.occupationList = [];
+    var sourceProm = this.utilityService.getWebSettingByDomainPromise('OCCUPATION');
+    sourceProm.subscribe(result => {
+      this.occupationList = result.data;
+    });
+
+    this.typeList = [];
+    var typeProm = this.utilityService.getWebSettingByDomainPromise('ADMISSION_TYPE');
+    typeProm.subscribe(result => {
+      this.typeList = result.data;
+    });
+
+    this.batchList = [];
+    var typeProm = this.utilityService.getWebSettingByDomainPromise('BATCH_TYPE');
+    typeProm.subscribe(result => {
+      this.batchList = result.data;
+    });
+
+    this.programList = [];
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAM');
+    programProm.subscribe(result => {
+      this.programList = result.data;
+    });
+
+    this.genderList = [];
+
+    var genderProm = this.utilityService.getWebSettingByDomainPromise('GENDER');
+    genderProm.subscribe(result => {
+      this.genderList = result.data;
+    });
+
+    this.stateList = [];
+
+    var stateProm = this.utilityService.getWebSettingByDomainPromise('STATE');
+    stateProm.subscribe(result => {
+      this.stateList = result.data;
+    });
+
+  }
+
+  CreateAdmission(form: NgForm) {
     if (form.valid) {
       // USE THE ACTUAL API CALL
       var addProm = this.admissionService.admissionAddPromise(this.admissionAddDetails);

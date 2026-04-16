@@ -11,7 +11,7 @@ declare var $;
 export class AdmissionService {
   userData: any = {};
   yearData: any = {};
-
+  companymasterid = 0;
   constructor(private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
@@ -23,7 +23,8 @@ export class AdmissionService {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
     param.academicyearid = this.yearData;
-    var url = this.baseUrl + "api/Admission/CreateNewAdmission";
+    param.companymasterid = this.companymasterid;
+    var url = this.baseUrl + "api/Admission/CreateNewStudent";
     return this.http.post<any>(url, param);
   }
 
@@ -103,6 +104,12 @@ export class AdmissionService {
   getUserData() {
     if (localStorage["userdata"]) {
       this.userData = JSON.parse(localStorage["userdata"]);
+
+    }
+
+    if (localStorage["companymasterid"]) {
+      this.companymasterid = JSON.parse(localStorage["companymasterid"]);
+
     }
   }
 }
