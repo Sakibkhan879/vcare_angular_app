@@ -3,26 +3,27 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AdmissionService } from '../../../services/admission.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 import { UtilityService } from '../../../services/utility.service';
-// import { EnquiryService } from '../../../services/enquiry.service'; // Uncomment and create this
 
 @Component({
   selector: 'app-admissionadd',
   templateUrl: './admissionadd.component.html'
-
 })
 export class AdmissionaddComponent implements OnInit {
-  admissionAddDetails: any = {};
-  //enquiryAddDetails: any = {};
+
+  // FIXED: One single declaration with all booleans initialized to false
+  admissionAddDetails: any = {    
+    
+  };
+
   occupationList: any[] = [];
-  programList: any[] = [];
+  standardList: any[] = [];
   sourceList: any[] = [];
   stateList: any[] = [];
   batchList: any[] = [];
   typeList = [];
   genderList = [];
+  divisionList = [];
 
   constructor(
     private _router: Router,
@@ -32,79 +33,32 @@ export class AdmissionaddComponent implements OnInit {
     private toastr: ToastrService
   ) { }
 
-
   ngOnInit() {
     this.loadWebSetting();
-  }
-  loadStates() {
-    this.stateList = [
-      { id: 1, name: 'Maharashtra' },
-      { id: 2, name: 'Karnataka' },
-      { id: 3, name: 'Gujarat' }
-    ];
-  }
-  getTodayDate(): string {
-    const today = new Date();
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = monthNames[today.getMonth()];
-    const year = today.getFullYear();
 
-    return `${day}-${month}-${year}`;
   }
+
 
   loadWebSetting() {
-    this.occupationList = [];
-    var sourceProm = this.utilityService.getWebSettingByDomainPromise('OCCUPATION');
-    sourceProm.subscribe(result => {
-      this.occupationList = result.data;
-    });
-
-    this.typeList = [];
-    var typeProm = this.utilityService.getWebSettingByDomainPromise('ADMISSION_TYPE');
-    typeProm.subscribe(result => {
-      this.typeList = result.data;
-    });
-
-    this.batchList = [];
-    var typeProm = this.utilityService.getWebSettingByDomainPromise('BATCH_TYPE');
-    typeProm.subscribe(result => {
-      this.batchList = result.data;
-    });
-
-    this.programList = [];
-
-    var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAM');
-    programProm.subscribe(result => {
-      this.programList = result.data;
-    });
-
-    this.genderList = [];
-
-    var genderProm = this.utilityService.getWebSettingByDomainPromise('GENDER');
-    genderProm.subscribe(result => {
-      this.genderList = result.data;
-    });
-
-    this.stateList = [];
-
-    var stateProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    stateProm.subscribe(result => {
-      this.stateList = result.data;
-    });
-
+    this.utilityService.getWebSettingByDomainPromise('OCCUPATION').subscribe(res => this.occupationList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('ADMISSION_TYPE').subscribe(res => this.typeList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('BATCH_TYPE').subscribe(res => this.batchList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('STANDARD').subscribe(res => this.standardList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('DIVISION').subscribe(res => this.divisionList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('GENDER').subscribe(res => this.genderList = res.data);
+    this.utilityService.getWebSettingByDomainPromise('STATE').subscribe(res => this.stateList = res.data);
   }
 
   CreateAdmission(form: NgForm) {
     if (form.valid) {
-      // USE THE ACTUAL API CALL
-      var addProm = this.admissionService.admissionAddPromise(this.admissionAddDetails);
-      addProm.subscribe(result => {
-        if (result && result.status && result.data) {
-          this.toastr.success(result.message);
+      // DEBUG: Verify all 3 radio buttons in your console
+      console.log("Final Payload:", this.admissionAddDetails);
 
-          // Reset form but keep default locked values
-          form.reset({});
+      this.admissionService.admissionAddPromise(this.admissionAddDetails).subscribe(result => {
+        if (result && result.status) {
+          this.toastr.success("Admission created successfully", "Success" );
+          this.clear();
+          form.resetForm();
         } else {
           this.toastr.error(result.message);
         }
@@ -113,35 +67,27 @@ export class AdmissionaddComponent implements OnInit {
       this.toastr.error("Please enter all mandatory fields with proper information!");
     }
   }
-  loadProgramWebSetting() {
-    this.programList = [];
-    // var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAMS');
-    // programProm.subscribe(result => { this.programList = result.data; });
 
-    // Mock Data for UI testing
-    this.programList = [{ id: 1, name: 'PlayGroup' }, { id: 2, name: 'Nursery' }];
-  }
-
-  loadSourceWebSetting() {
-    this.sourceList = [];
-    // var sourceProm = this.utilityService.getWebSettingByDomainPromise('LEAD_SOURCE');
-    // sourceProm.subscribe(result => { this.sourceList = result.data; });
-
-    // Mock Data for UI testing
-    this.sourceList = [{ id: 1, name: 'Walk-in' }, { id: 2, name: 'Social Media' }];
-  }
 
   clear() {
-    // Reset but keep the default locked values
+    // FIXED: Ensuring all radio buttons reset to 'false' (No)
     this.admissionAddDetails = {
+      istransport: '',
+      isattended:'' ,
+      hassibling: '',
       academicyearid: '',
       enquirydate: '',
-      gender: '',
-      hassibling: ''
+      gender: ''
     };
   }
 
-  cancel() {
-    this._router.navigate(['app/admission']);
+
+  getTodayDate(): string {
+    const today = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = monthNames[today.getMonth()];
+    const year = today.getFullYear();
+    return `${day}-${month}-${year}`;
   }
 }

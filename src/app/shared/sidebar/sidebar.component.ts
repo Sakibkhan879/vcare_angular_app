@@ -76,6 +76,12 @@ export class SidebarComponent implements AfterViewInit {
     case "enquiry":
       this._router.navigate(['app/enquiry']);
       break;
+    case "payment":
+      this._router.navigate(['app/payment']);
+      break;
+    case "log":
+      this._router.navigate(['app/log']);
+      break;
     case "customer":
       this._router.navigate(['app/customer']);
       break;

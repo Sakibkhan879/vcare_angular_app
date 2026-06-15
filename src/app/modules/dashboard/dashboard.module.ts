@@ -1,26 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgxSmartModalModule } from 'ngx-smart-modal';
-import { DashboardComponent } from './dashboard.component';
+
+// Ensure these components exist in your folder structure
+import { NgSelectModule } from '@ng-select/ng-select';
 import { DatePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { NgxSmartModalModule } from 'ngx-smart-modal';
+import { DashboardaddComponent } from './dashboardadd/dashboardadd.component';
+import { DashboardeditComponent } from './dashboardedit/dashboardedit.component';
+import { DashboardlistComponent } from './dashboardlist/dashboardlist.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardaddComponent,
+    DashboardeditComponent,
+    DashboardlistComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    DatePickerModule,
-    NgxSmartModalModule.forRoot(),
     NgSelectModule,
-    RouterModule.forChild([{ path:'', component: DashboardComponent}
+    DatePickerModule,
+    NgxSmartModalModule,
+    ReactiveFormsModule,
+    RouterModule.forChild([
+      { path: 'add', component: DashboardaddComponent },
+      { path: 'edit', component: DashboardeditComponent },
+      { path: '', component: DashboardlistComponent }
     ]),
   ],
   providers: [],

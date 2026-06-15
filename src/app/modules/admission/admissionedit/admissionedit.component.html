@@ -11,53 +11,76 @@
       Once you've finished updating the admission details, click the submit button to save the changes.
     </span>
   </div>
+
   <div class="col-lg-12 mt-4">
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane active show" id="mainDetail" role="tabpanel">
         <div class="main-content-inner">
 
-          <form name="form" #editForm="ngForm" novalidate>
+          <form name="form" #admissionForm="ngForm" novalidate>
 
             <div class="p-2 mb-3 mt-3 text-dark" style="background-color: #d1e2f3;">
               <h6 class="m-0">Student Information</h6>
             </div>
-            
             <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Academic Year</b></label>
-                  <div class="col-sm-8">
-                    <input class="form-control txt bg-light" type="text" name="academicyear" readonly [(ngModel)]="admissionEditDetails.academicyear">
-                  </div>
-                </div>
-              </div>
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Admission Date</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt bg-light" type="text" name="admissiondate" readonly [(ngModel)]="admissionEditDetails.date">
+                    <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="admissiondate" [value]="admissionEditDetails.admissiondate" [(ngModel)]='admissionEditDetails.admissiondate' id="admissiondate" placeholder='Enter Admission Date' required></ejs-datepicker>
+                    <small *ngIf="admissionForm.controls.admissiondate.dirty && !admissionForm.controls.admissiondate.valid" class="form-text text-danger">
+                      Admission date is required.
+                    </small>
                   </div>
                 </div>
               </div>
+
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Division</b></label>
+                  <div class="col-sm-8">
+                    <ng-select [(ngModel)]="admissionEditDetails.divisionid" name="divisionid" placeholder="Division Gender" required>
+                      <ng-option *ngFor="let prog of divisionList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
             </div>
+
 
             <div class="row">
               <div class="col-lg-6">
+
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Student Name</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="studentname" placeholder="Enter Full Name" [(ngModel)]="admissionEditDetails.studentname" required>
+                    <input class="form-control txt" type="text" name="studentname" placeholder="Enter Student Name"
+                           [(ngModel)]="admissionEditDetails.studentname" required>
                   </div>
                 </div>
               </div>
-            </div>
 
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b>GR Number</b></label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control bg-light" [value]="admissionEditDetails.grnumber" readonly>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Date Of Birth</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="date" name="dateofbirth" [(ngModel)]="admissionEditDetails.dob" required>
+                    <input class="form-control txt" type="date" name="dateofbirth"
+                           [(ngModel)]="admissionEditDetails.DOB" required>
                   </div>
                 </div>
               </div>
@@ -65,22 +88,24 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Gender</b></label>
                   <div class="col-sm-8">
-                    <select class="form-control" name="gender" [(ngModel)]="admissionEditDetails.genderid" required>
-                      <option value="Boy">Boy</option>
-                      <option value="Girl">Girl</option>
-                    </select>
+                    <ng-select [(ngModel)]="admissionEditDetails.genderid" name="genderid" placeholder="Select Gender" required>
+                      <ng-option *ngFor="let prog of genderList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
+                    </ng-select>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.programid" name="programid" placeholder="Select Program" required>
-                      <ng-option *ngFor="let prog of programList" [value]="prog.id">{{prog.name}}</ng-option>
+                    <ng-select [(ngModel)]="admissionEditDetails.standardid" name="standardid" placeholder="Select Program" required>
+                      <ng-option *ngFor="let prog of standardList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
@@ -89,49 +114,56 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Nationality</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="nationality" placeholder="Select Nationality" [(ngModel)]="admissionEditDetails.nationality" required>
+                    <input class="form-control txt" type="text" name="nationality" placeholder="Select Nationality"
+                           [(ngModel)]="admissionEditDetails.nationality" required>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Admission Type</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.admissiontid" name="admissiontid" placeholder="Select Type" required>
-                      <ng-option *ngFor="let admissiontid of AdmissionType" [value]="admissiontid.id">{{admissiontid.name}}</ng-option>
+                    <ng-select [(ngModel)]="admissionEditDetails.admissiontypeid" name="admissiontid" placeholder="Select Type" required>
+                      <ng-option *ngFor="let prog of typeList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Discount Applicable</b></label>
-                  <div class="col-sm-8">
-                    <select class="form-control" name="discount" [(ngModel)]="admissionEditDetails.discid" required>
-                      <option value="discyes">Yes</option>
-                      <option value="discno">No</option>
-                    </select>
-                  </div>
-                </div>
+            <!--<div class="row">
+          <div class="col-lg-6">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Discount Applicable</b></label>
+              <div class="col-sm-8">
+                <ng-select [(ngModel)]="admissionEditDetails.genderid" name="genderid" placeholder="Select Gender" required>
+                  <ng-option *ngFor="let prog of genderList" [value]="prog.websettingsid">
+                    {{prog.value}}
+                  </ng-option>
+                </ng-select>
               </div>
             </div>
+          </div>
+        </div>-->
+          </form>
+
+
+
+          <form name="form" #admissionForm="ngForm" novalidate>
 
             <div class="p-2 mb-3 mt-3 text-dark" style="background-color: #d1e2f3;">
               <h6 class="m-0">Parent Information</h6>
             </div>
-            
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Name</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="fathername" placeholder="Enter Father Name" [(ngModel)]="admissionEditDetails.fathername" required>
+                    <input class="form-control txt" type="text" name="fathername" placeholder="Enter Father Name"
+                           [(ngModel)]="admissionEditDetails.fathername" required>
                   </div>
                 </div>
               </div>
@@ -139,38 +171,41 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b>Mother Name</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="mothername" placeholder="Enter Mother Name" [(ngModel)]="admissionEditDetails.mothername">
+                    <input class="form-control txt" type="text" name="mothername" placeholder="Enter Mother Name"
+                           [(ngModel)]="admissionEditDetails.mothername">
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Mobile No</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Mobile Number</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="fathermno" placeholder="Enter Father Mobile Number" [(ngModel)]="admissionEditDetails.fathermno" required>
+                    <input class="form-control txt" type="text" name="fathermno" placeholder="Enter Father Mobile Number"
+                           [(ngModel)]="admissionEditDetails.fatherphoneno" required>
                   </div>
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Mother Mobile No</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b>Mother Mobile Number</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="mothermno" placeholder="Enter Mother Mobile Number" [(ngModel)]="admissionEditDetails.mothermno">
+                    <input class="form-control txt" type="text" name="mothermno" placeholder="Enter Mother Mother Number"
+                           [(ngModel)]="admissionEditDetails.motherphoneno">
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Occupation</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.fatheroccid" name="fatheroccid" placeholder="Select Type" required>
-                      <ng-option *ngFor="let fatheroccid of AdmissionType" [value]="fatheroccid.id">{{fatheroccid.name}}</ng-option>
+                    <ng-select [(ngModel)]="admissionEditDetails.fatheroccupationid" name="fatheroccid" placeholder="Select Type" required>
+                      <ng-option *ngFor="let prog of occupationList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
@@ -179,47 +214,51 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b>Mother Occupation</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.motheroccid" name="motheroccid" placeholder="Select Type" required>
-                      <ng-option *ngFor="let motheroccid of AdmissionType" [value]="motheroccid.id">{{motheroccid.name}}</ng-option>
+                    <ng-select [(ngModel)]="admissionEditDetails.motheroccupationid" name="motheroccid" placeholder="Select Type" required>
+                      <ng-option *ngFor="let prog of occupationList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Email</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Email Address</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="email" name="fatheremail" placeholder="Enter Father Email Address" [(ngModel)]="admissionEditDetails.fatheremail" required>
+                    <input class="form-control txt" type="text" name="fatheremail" placeholder="Enter Father Email Address"
+                           [(ngModel)]="admissionEditDetails.fatheremail" required>
                   </div>
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Mother Email</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b>Email Address</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="email" name="motheremail" placeholder="Enter Mother Email Address" [(ngModel)]="admissionEditDetails.motheremail">
+                    <input class="form-control txt" type="text" name="motheremail" placeholder="Enter Mother Email Address"
+                           [(ngModel)]="admissionEditDetails.motheremail">
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Father Org Name</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b>Organisation Name</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="fatherorgname" placeholder="Enter Father Organisation Name" [(ngModel)]="admissionEditDetails.fatherorgname" required>
+                    <input class="form-control txt" type="text" name="fatherorganizationname" placeholder="Enter Father Organisation Name"
+                           [(ngModel)]="admissionEditDetails.fatherorganizationname" required>
                   </div>
                 </div>
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Mother Org Name</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b>Organisation Name</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="motherorgname" placeholder="Enter Mother Organisation Name" [(ngModel)]="admissionEditDetails.motherorgname">
+                    <input class="form-control txt" type="text" name="motherorganizationname" placeholder="Enter Mother Organisation Name"
+                           [(ngModel)]="admissionEditDetails.motherorganizationname">
                   </div>
                 </div>
               </div>
@@ -230,18 +269,35 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Address</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="studentaddress" placeholder="Enter Student Address" [(ngModel)]="admissionEditDetails.fulladdress" required>
+                    <input class="form-control txt" type="text" name="studentaddress" placeholder="Enter Student Address"
+                           [(ngModel)]="admissionEditDetails.fulladdress" required>
+                  </div>
+                </div>
+              </div>
+             </div>
+
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Address</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control txt" type="text" name="studentaddress" placeholder="Enter Student Address"
+                           [(ngModel)]="admissionEditDetails.fulladdress" required>
                   </div>
                 </div>
               </div>
             </div>
+
+
 
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Postal Code</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="postalcode" placeholder="411052" [(ngModel)]="admissionEditDetails.postalcode" required>
+                    <input class="form-control txt" type="text" name="postalcode" placeholder="411052"
+                           [(ngModel)]="admissionEditDetails.postalcode" required>
                   </div>
                 </div>
               </div>
@@ -249,19 +305,21 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>City</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="city" placeholder="Pune" [(ngModel)]="admissionEditDetails.city" required>
+                    <input class="form-control txt" type="text" name="city" placeholder="Pune"
+                           [(ngModel)]="admissionEditDetails.city" required>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>State</b></label>
                   <div class="col-sm-8">
                     <ng-select [(ngModel)]="admissionEditDetails.stateid" name="stateid" placeholder="Select State" required>
-                      <ng-option *ngFor="let state of stateList" [value]="state.id">{{state.name}}</ng-option>
+                      <ng-option *ngFor="let prog of stateList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
@@ -270,52 +328,52 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Country</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="country" placeholder="India" [(ngModel)]="admissionEditDetails.country" required>
+                    <input class="form-control txt" type="text" name="country" placeholder="India"
+                           [(ngModel)]="admissionEditDetails.country" required>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Batch</b></label>
                   <div class="col-sm-8">
                     <ng-select [(ngModel)]="admissionEditDetails.batchid" name="batchid" placeholder="Select Batch" required>
-                      <ng-option *ngFor="let batch of batchList" [value]="batch.id">{{batch.name}}</ng-option>
+                      <ng-option *ngFor="let prog of batchList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
                     </ng-select>
                   </div>
                 </div>
               </div>
-              
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Transport Required?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
-                      <input type="radio" id="transportYes" name="transport" class="custom-control-input" value="Yes" [(ngModel)]="admissionEditDetails.transport">
+                      <input type="radio" id="transportYes" name="transport" class="custom-control-input" value="Yes" [(ngModel)]="admissionEditDetails.istransport">
                       <label class="custom-control-label" for="transportYes">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="transportNo" name="transport" class="custom-control-input" value="No" [(ngModel)]="admissionEditDetails.transport">
+                      <input type="radio" id="transportNo" name="transport" class="custom-control-input" value="No" [(ngModel)]="admissionEditDetails.istransport">
                       <label class="custom-control-label" for="transportNo">No</label>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Has any of the child's kin attended Vcare before?</b></label>
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>has any of the child's kin attended Vcare before?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
-                      <input type="radio" id="attendedYes" name="attended" class="custom-control-input" value="Yes" [(ngModel)]="admissionEditDetails.attended">
+                      <input type="radio" id="attendedYes" name="attended" class="custom-control-input" value="Yes" [(ngModel)]="admissionEditDetails.isattended">
                       <label class="custom-control-label" for="attendedYes">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="attendedNo" name="attended" class="custom-control-input" value="No" [(ngModel)]="admissionEditDetails.attended">
+                      <input type="radio" id="attendedNo" name="attended" class="custom-control-input" value="No" [(ngModel)]="admissionEditDetails.isattended">
                       <label class="custom-control-label" for="attendedNo">No</label>
                     </div>
                   </div>
@@ -340,18 +398,31 @@
                 </div>
               </div>
             </div>
-
-            <div class="row mb-6 mt-4 pb-4">
-              <div class="col-lg-12 ml-3">
-                <button type="submit" class="btn btn-primary btn-sm" (click)="updateAdmission(editForm)" [disabled]="!editForm.valid">Update Admission</button>
-                <button type="button" class="btn btn-dark btn-sm ml-2" (click)="cancelEdit()">Cancel</button>
-              </div>
-            </div>
-
           </form>
 
         </div>
       </div>
+
+
+  
+
+
+      <div class="row mb-6 mt-4 pb-4">
+        <div class="col-lg-12 text-right">
+          <button type="submit" class="btn btn-success btn-sm" (click)="updateAdmission(admissionForm)">
+            Update Admission
+          </button>
+          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">
+            Clear
+          </button>
+        </div>
+      </div>
+
+
+
+
+
     </div>
   </div>
+
 </div>

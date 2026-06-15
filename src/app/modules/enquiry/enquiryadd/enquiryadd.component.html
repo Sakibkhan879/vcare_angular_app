@@ -149,11 +149,11 @@
                   <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Has any sibling currently enrolled in Vcare?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
-                      <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" value="Yes" [(ngModel)]="enquiryAddDetails.hassibling">
+                      <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" [value]="true" [(ngModel)]="enquiryAddDetails.hassibling">
                       <label class="custom-control-label" for="siblingYes">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="siblingNo" name="hassibling" class="custom-control-input" value="No" [(ngModel)]="enquiryAddDetails.hassibling">
+                      <input type="radio" id="siblingNo" name="hassibling" class="custom-control-input" [value]="false" [(ngModel)]="enquiryAddDetails.hassibling">
                       <label class="custom-control-label" for="siblingNo">No</label>
                     </div>
                   </div>
@@ -186,9 +186,13 @@
       </div>
 
       <div class="row mb-6 mt-4 pb-4">
-        <div class="col-lg-12 ml-3">
-          <button type="submit" class="btn btn-primary btn-sm" (click)="enquiryAddData(enquiryForm)">Create Enquiry</button>
-          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">Clear</button>
+        <div class="col-lg-12 text-right">
+          <button type="submit" class="btn btn-success btn-sm" (click)="enquiryAddData(enquiryForm)">
+            Create Enquiry
+          </button>
+          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">
+            Clear
+          </button>
         </div>
       </div>
 

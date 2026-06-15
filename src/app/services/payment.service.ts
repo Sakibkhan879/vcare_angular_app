@@ -8,6 +8,8 @@ import { Observable, Subject } from 'rxjs';
 export class PaymentService {
   userData: any = {};
   yearData: any = {};
+  companymasterid = 0;
+
 
 
   constructor(private http: HttpClient,
@@ -18,12 +20,35 @@ export class PaymentService {
   }
 
 
+  
+  LoadLogForPaymentPromise(param) {
+    this.getUserData();
+    param.companyid = this.userData.companyid;
+    this.yearData = localStorage["yeardata"];
+    param.academicyearid = this.yearData;
+    var url = this.baseUrl + "api/Payment/LoadLogForPayment";
+    return this.http.post<any>(url, param);
+  }
+
+
+
+
+  FeeSetupLoadPromise(param) {
+    this.getUserData();
+    param.companyid = this.userData.companyid;
+    this.yearData = localStorage["yeardata"];
+    param.academicyearid = this.yearData;
+    var url = this.baseUrl + "api/Payment/LoadStudentForPayment";
+    return this.http.post<any>(url, param);
+  }
+
+
   paymentsmadeAddPromise(param) {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
     param.companyid = this.userData.companyid;
     param.financialyearid = this.yearData;
-    var url = this.baseUrl + "api/purchasepayment/CreateNewPurchasePayment";
+    var url = this.baseUrl + "api/Payment/CreateNewPayment";
     return this.http.post<any>(url, param);
   }
 
@@ -59,6 +84,8 @@ export class PaymentService {
   //----------------------------payement received--------------------------------
 
 
+
+
   paymentAddPromise(param) {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
@@ -69,12 +96,14 @@ export class PaymentService {
   }
 
 
+
+
   paymentListPromise() {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    var obj = {financialyearid: this.yearData };
-    var url = this.baseUrl + "api/Payment/LoadAllPaymentLists";
-    return this.http.post<any>(url,obj);
+    var obj = { companymasterid: this.companymasterid, academicyearid: this.yearData };
+    var url = this.baseUrl + "api/Payment/LoadAllpaymentList";
+    return this.http.post<any>(url, obj);
   }
 
 

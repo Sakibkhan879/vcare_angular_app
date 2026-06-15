@@ -19,7 +19,6 @@
               <h6 class="m-0">Student Information</h6>
             </div>
             <div class="row">
-       
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Admission Date</b></label>
@@ -31,6 +30,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
 
 
@@ -44,7 +44,27 @@
                   </div>
                 </div>
               </div>
+
+
+
+
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Division</b></label>
+                  <div class="col-sm-8">
+                    <ng-select [(ngModel)]="admissionAddDetails.divisionid" name="divisionid" placeholder="Select Division" required>
+                      <ng-option *ngFor="let prog of divisionList" [value]="prog.websettingsid">
+                        {{prog.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+
+
             </div>
+
+
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
@@ -55,6 +75,8 @@
                   </div>
                 </div>
               </div>
+
+
               <div class="col-lg-6">
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Gender</b></label>
@@ -71,10 +93,10 @@
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Standard Name</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionAddDetails.programid" name="programid" placeholder="Select Program" required>
-                      <ng-option *ngFor="let prog of programList" [value]="prog.websettingsid">
+                    <ng-select [(ngModel)]="admissionAddDetails.standardid" name="standardid" placeholder="Select Program" required>
+                      <ng-option *ngFor="let prog of standardList" [value]="prog.websettingsid">
                         {{prog.value}}
                       </ng-option>
                     </ng-select>
@@ -106,19 +128,19 @@
               </div>
             </div>
             <!--<div class="row">
-              <div class="col-lg-6">
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Discount Applicable</b></label>
-                  <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionAddDetails.genderid" name="genderid" placeholder="Select Gender" required>
-                      <ng-option *ngFor="let prog of genderList" [value]="prog.websettingsid">
-                        {{prog.value}}
-                      </ng-option>
-                    </ng-select>
-                  </div>
-                </div>
+          <div class="col-lg-6">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Discount Applicable</b></label>
+              <div class="col-sm-8">
+                <ng-select [(ngModel)]="admissionAddDetails.genderid" name="genderid" placeholder="Select Gender" required>
+                  <ng-option *ngFor="let prog of genderList" [value]="prog.websettingsid">
+                    {{prog.value}}
+                  </ng-option>
+                </ng-select>
               </div>
-            </div>-->
+            </div>
+          </div>
+        </div>-->
           </form>
 
 
@@ -235,6 +257,9 @@
               </div>
             </div>
 
+            
+
+
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
@@ -246,6 +271,9 @@
                 </div>
               </div>
             </div>
+
+
+
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
@@ -302,21 +330,25 @@
                   </div>
                 </div>
               </div>
-                <div class="col-lg-6">
-                  <div class="form-group row">
-                    <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Transport Required?</b></label>
-                    <div class="col-sm-8 d-flex align-items-center">
-                      <div class="custom-control custom-radio custom-control-inline mr-3">
-                        <input type="radio" id="transportYes" name="transport" class="custom-control-input" value="Yes" [(ngModel)]="admissionAddDetails.istransport">
-                        <label class="custom-control-label" for="transportYes">Yes</label>
-                      </div>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="transportNo" name="transport" class="custom-control-input" value="No" [(ngModel)]="admissionAddDetails.istransport">
-                        <label class="custom-control-label" for="transportNo">No</label>
-                      </div>
+
+
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Transport Required?</b></label>
+                  <div class="col-sm-8 d-flex align-items-center">
+                    <div class="custom-control custom-radio custom-control-inline mr-3">
+                      <input type="radio" id="transportYes" name="transport" class="custom-control-input" [value]="true" [(ngModel)]="admissionAddDetails.istransport">
+                      <label class="custom-control-label" for="transportYes">Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" id="transportNo" name="transport" class="custom-control-input" [value]="false" [(ngModel)]="admissionAddDetails.istransport">
+                      <label class="custom-control-label" for="transportNo">No</label>
                     </div>
                   </div>
                 </div>
+              </div>
+
+
             </div>
             <div class="row mt-2">
               <div class="col-lg-6">
@@ -324,11 +356,11 @@
                   <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>has any of the child's kin attended Vcare before?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
-                      <input type="radio" id="attendedYes" name="attended" class="custom-control-input" value="Yes" [(ngModel)]="admissionAddDetails.isattended">
+                      <input type="radio" id="attendedYes" name="attended" class="custom-control-input" [value]="true" [(ngModel)]="admissionAddDetails.isattended">
                       <label class="custom-control-label" for="attendedYes">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="attendedNo" name="attended" class="custom-control-input" value="No" [(ngModel)]="admissionAddDetails.isattended">
+                      <input type="radio" id="attendedNo" name="attended" class="custom-control-input" [value]="false" [(ngModel)]="admissionAddDetails.isattended">
                       <label class="custom-control-label" for="attendedNo">No</label>
                     </div>
                   </div>
@@ -339,14 +371,14 @@
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b>Does the child have any sibling?</b></label>
+                  <label class="col-sm-4 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>Has any sibling currently enrolled in Vcare?</b></label>
                   <div class="col-sm-8 d-flex align-items-center">
                     <div class="custom-control custom-radio custom-control-inline mr-3">
-                      <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" value="Yes" [(ngModel)]="admissionAddDetails.hassibling">
+                      <input type="radio" id="siblingYes" name="hassibling" class="custom-control-input" [value]="true" [(ngModel)]="admissionAddDetails.hassibling">
                       <label class="custom-control-label" for="siblingYes">Yes</label>
                     </div>
                     <div class="custom-control custom-radio custom-control-inline">
-                      <input type="radio" id="siblingNo" name="hassibling" class="custom-control-input" value="No" [(ngModel)]="admissionAddDetails.hassibling">
+                      <input type="radio" id="siblingNo" name="hassibling" class="custom-control-input" [value]="false" [(ngModel)]="admissionAddDetails.hassibling">
                       <label class="custom-control-label" for="siblingNo">No</label>
                     </div>
                   </div>
@@ -357,12 +389,17 @@
 
         </div>
       </div>
+
+
+
+
       <div class="row mb-6 mt-4 pb-4">
-        <div class="col-lg-12 ml-3">
-          <button type="submit" class="btn btn-primary btn-sm" (click)="CreateAdmission(admissionForm)">Create Admission</button>
+        <div class="col-lg-12 text-right">
+          <button type="submit" class="btn btn-success btn-sm" (click)="CreateAdmission(admissionForm)">Create Admission</button>
           <button type="button" class="btn btn-dark btn-sm ml-2" (click)="clear()">Clear</button>
         </div>
       </div>
+
     </div>
   </div>
 </div>

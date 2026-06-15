@@ -192,7 +192,7 @@ export class EnquirylistComponent implements AfterViewInit {
 
   editPage(val: any) {
     this._router.navigate(['app/enquiry/edit'], {
-      queryParams: { enquiryinfoid: val.enquiryinfoid } 
+      queryParams: { enquirymasterid: val.enquirymasterid } 
     });
   }
 
@@ -270,11 +270,11 @@ export class EnquirylistComponent implements AfterViewInit {
 
         this.toastr.warning("No Enquiry Found");
       }
-      
+          
       if ($('.erp-datatable').length) {
         $('.erp-datatable').DataTable({ "ordering": false });
       }
-    });
+    }); 
 
     var statsProm = this.enquiryService.enquiryStatsPromise();
     statsProm.subscribe(result => {
@@ -283,6 +283,7 @@ export class EnquirylistComponent implements AfterViewInit {
         this.enquiryStats = result.data;
       }
     });
+
   }
 
   // ==========================================
@@ -302,11 +303,11 @@ export class EnquirylistComponent implements AfterViewInit {
     var deleteProm = this.enquiryService.enquiryDeletePromise(this.currentEnquiry);
     deleteProm.subscribe(result => {
       if (result && result.status && result.data) {
-        this.toastr.success(result.message);
+        this.toastr.success(" Enquiry Deleted succesfully");
         this.closeRecord();
         this.refreshPage(); 
       } else {
-        this.toastr.error(result.message);
+        this.toastr.error("error");
       }
     });
   }

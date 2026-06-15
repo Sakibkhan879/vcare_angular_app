@@ -40,8 +40,9 @@ export class EnquiryService {
 
   enquiryLoadDetailsPromise(data) {
     this.getUserData();
+    var obj = { enquirymasterid: data, companyid: this.userData.companyid };
     var url = this.baseUrl + "api/Enquiry/LoadEnquiryDetailsById";
-    return this.http.post<any>(url, data);
+    return this.http.post<any>(url, obj);
   }
 
   enquiryUpdatePromise(obj) {
@@ -61,9 +62,8 @@ export class EnquiryService {
     this.yearData = localStorage["yeardata"];
     var obj = { companymasterid: this.companymasterid, academicyearid: this.yearData };
     var url = this.baseUrl + "api/Enquiry/LoadEnquiryMetrics";
-    return this.http.post<any>(url, obj);
+    return this.http.post<any>(url, obj); 
   }
-
 
 
   submitEnquiryPromise(data) {

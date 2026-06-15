@@ -41,7 +41,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer Name</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="enquirername" placeholder="Enquirer Name"
-                           [(ngModel)]="enquiryEditDetails.name" required>
+                           [(ngModel)]="enquiryEditDetails.fullname" required>
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Address</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="enquireraddress" placeholder="Enquirer Address"
-                           [(ngModel)]="enquiryEditDetails.address" required>
+                           [(ngModel)]="enquiryEditDetails.fulladdress" required>
                   </div>
                 </div>
               </div>
@@ -73,21 +73,24 @@
             </div>
 
             <div class="row">
-              <div class="col-lg-6">
-                <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Academic Year</b></label>
-                  <div class="col-sm-8">
-                    <input class="form-control txt bg-light" type="text" name="academicyear" readonly
-                           [(ngModel)]="enquiryEditDetails.academicyear">
-                  </div>
-                </div>
+              <!--<div class="col-lg-6">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Academic Year</b></label>
+              <div class="col-sm-8">
+                <input class="form-control txt bg-light" type="text" name="academicyear" readonly
+                       [(ngModel)]="enquiryEditDetails.academicyear">
               </div>
+            </div>
+          </div>-->
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquiry Date</b></label>
+                  <label for="example-text-enquirydate" class="col-sm-4 col-form-label"><b> Enquiry Date</b></label>
+
                   <div class="col-sm-8">
-                    <input class="form-control txt bg-light" type="text" name="enquirydate" readonly
-                           [(ngModel)]="enquiryEditDetails.date">
+                    <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="enquirydate" [value]="enquiryEditDetails.enquirydate" [(ngModel)]='enquiryEditDetails.enquirydate' id="enquirydate" placeholder='Enter date' required></ejs-datepicker>
+                    <small *ngIf="enquiryForm.controls.enquirydate.dirty && !enquiryForm.controls.enquirydate.valid" class="form-text text-danger">
+                      Date is required.
+                    </small>
                   </div>
                 </div>
               </div>
@@ -108,10 +111,13 @@
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Date Of Birth</b></label>
+                  <label for="example-text-dob" class="col-sm-4 col-form-label"><b> DOB</b></label>
+
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="date" name="dateofbirth"
-                           [(ngModel)]="enquiryEditDetails.dob" required>
+                    <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="dob" [value]="enquiryEditDetails.dob" [(ngModel)]='enquiryEditDetails.dob' id="dob" placeholder='Enter DOB' required></ejs-datepicker>
+                    <small *ngIf="enquiryForm.controls.dob.dirty && !enquiryForm.controls.dob.valid" class="form-text text-danger">
+                      DOB is required.
+                    </small>
                   </div>
                 </div>
               </div>
@@ -119,10 +125,9 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Gender</b></label>
                   <div class="col-sm-8">
-                    <select class="form-control" name="gender" [(ngModel)]="enquiryEditDetails.genderid" required>
-                      <option value="Boy">Boy</option>
-                      <option value="Girl">Girl</option>
-                    </select>
+                    <ng-select [(ngModel)]="enquiryEditDetails.genderid" name="genderid" placeholder="Select Gender" required>
+
+                    </ng-select>
                   </div>
                 </div>
               </div>
@@ -134,8 +139,8 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
                   <div class="col-sm-8">
                     <ng-select [(ngModel)]="enquiryEditDetails.programid" name="programid" placeholder="Select Program" required>
-                      <ng-option *ngFor="let prog of programList" [value]="prog.id">
-                        {{prog.name}}
+                      <ng-option *ngFor="let prog of programList" [value]="prog.websettingsid">
+                        {{prog.value}}
                       </ng-option>
                     </ng-select>
                   </div>
@@ -168,8 +173,8 @@
                   <label class="col-sm-5 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>How did you come to know about Vcare?</b></label>
                   <div class="col-sm-7">
                     <ng-select [(ngModel)]="enquiryEditDetails.sourceid" name="sourceid" placeholder="Select" required>
-                      <ng-option *ngFor="let src of sourceList" [value]="src.id">
-                        {{src.name}}
+                      <ng-option *ngFor="let src of sourceList" [value]="src.websettingsid">
+                        {{src.value}}
                       </ng-option>
                     </ng-select>
                   </div>
@@ -182,10 +187,13 @@
         </div>
       </div>
 
+     
+
+
       <div class="row mb-6 mt-4 pb-4">
-        <div class="col-lg-12 ml-3">
-          <button type="submit" class="btn btn-success btn-sm" (click)="updateEnquiry(enquiryForm)">Update</button>
-          <button type="button" class="btn btn-danger btn-sm ml-2" (click)="cancelEdit()">Cancel</button>
+        <div class="col-lg-12 text-right">
+          <button type="submit" class="btn btn-success btn-sm" (click)="updateEnquiry(enquiryForm)">Update Enquiry</button>
+          <button type="button" class="btn btn-dark btn-sm ml-2" (click)="cancelEdit()">Cancel</button>
         </div>
       </div>
 

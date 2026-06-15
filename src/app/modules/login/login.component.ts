@@ -42,9 +42,9 @@ export class LoginComponent implements AfterViewInit, OnInit{
      * and token, staff, admin ids are present then it will redirect to dashboard else it will redirect to subscription page so that user
      * can create subscription */
     if (localStorage["status"] == "active" && localStorage["stockmtoken"] && (localStorage["admininfoid"] > 0 || localStorage["staffinfoid"] > 0))
-    {
+     /*{
       this._router.navigate(['app/dashboard']);
-    }
+    } */
     $('.form-gp input').on('focus', function () {
       $(this).parent('.form-gp').addClass('focused');
     });
@@ -119,7 +119,7 @@ export class LoginComponent implements AfterViewInit, OnInit{
 
 /* Its to redirect to admin signin page */
   goToLoginPage() {
-    this._router.navigate(['']);
+    this._router.navigate(['login']);
   }
 
 /* Using service by api call it will send the password on registered mobile number or according to validations, it will give error */

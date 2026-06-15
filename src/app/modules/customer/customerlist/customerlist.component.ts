@@ -57,7 +57,7 @@ export class CustomerlistComponent implements AfterViewInit {
   editPage(val) {
     this._router.navigate(['app/customer/edit'],
       {
-        queryParams: { customerinfoid: val.customerinfoid }
+        queryParams: { studentmasterid: val.studentmasterid }
       });
   }
 

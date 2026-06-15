@@ -10,7 +10,7 @@ import { UtilityService } from '../../../services/utility.service';
   templateUrl: './enquiryedit.component.html'
 })
 export class EnquiryeditComponent implements OnInit, AfterViewInit {
-  Enquiryinfoid: any;
+  enquirymasterid: any;
   sourceList: any[] = [];
 
   // Object to hold the form data
@@ -25,7 +25,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
   constructor(
     private _router: Router,
     private route: ActivatedRoute,
-    private admissionService: EnquiryService,
+    private enquiryService: EnquiryService,
     private toastr: ToastrService,
     public cdr: ChangeDetectorRef,
     private utilityService: UtilityService
@@ -37,8 +37,8 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.route.queryParams.subscribe(params => {
-      if (params.enquiryinfoid) {
-        this.Enquiryinfoid = params.enquiryinfoid;
+      if (params.enquirymasterid) {
+        this.enquirymasterid = params.enquirymasterid;
         this.loadEnquiryDetails();
       }
     });
@@ -52,7 +52,13 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
       this.programList = result.data;
     });
 
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAM');
+    programProm.subscribe(result => {
+      this.programList = result.data;
+    });
   }
+ 
 
   loadSourceWebSetting() {
     this.sourceList = [];
@@ -72,7 +78,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
   }
 
   loadEnquiryDetails() {
-    const loadProm = this.admissionService.enquiryLoadDetailsPromise(this.Enquiryinfoid);
+    const loadProm = this.enquiryService.enquiryLoadDetailsPromise(this.enquirymasterid);
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
         this.enquiryEditDetails = result.data[0];
@@ -84,11 +90,31 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+  enquiryEditData(form: NgForm) {
+    if (form.valid) {
+      // USE THE ACTUAL API CALL
+      var addProm = this.enquiryService.enquiryUpdatePromise(this.enquiryEditDetails);
+      addProm.subscribe(result => {
+        if (result && result.status && result.data) {
+          this.toastr.success(result.message);
+
+          // Reset form but keep default locked values
+          form.reset({});
+        } else {
+          this.toastr.error(result.message);
+        }
+      });
+    } else {
+      this.toastr.error("Please enter all mandatory fields with proper information!");
+    }
+  }
+
   // --- FORM ACTIONS ---
 
   updateEnquiry(form: NgForm) {
     if (form.valid) {
-      const addProm = this.admissionService.enquiryUpdatePromise(this.enquiryEditDetails);
+      const addProm = this.enquiryService.enquiryUpdatePromise(this.enquiryEditDetails);
       addProm.subscribe(result => {
         if (result && result.status && result.data) {
           this.toastr.success(result.message || 'Enquiry updated successfully!');

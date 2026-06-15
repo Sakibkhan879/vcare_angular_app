@@ -8,10 +8,17 @@ import { CustomerportalmainComponent } from './boot/customerportalmain/customerp
 import { CustomerportalauthComponent } from './boot/customerportalauth/customerportalauth.component';
 import { AuthGuard } from './services/authguard.service';
 import { AdmissionModule } from './modules/admission/admission.module';
+import { LoginModule } from './modules/login/login.module';
 
 
 
 const routes: Routes = [
+  {
+    path: 'login',
+    loadChildren: () => import('./modules/login/login.module')
+      .then(m => m.LoginModule)
+  },
+
   {
     path: 'app',
     component: MainComponent,
@@ -31,23 +38,26 @@ const routes: Routes = [
         loadChildren: () => import('./modules/enquiry/enquiry.module').then(m => m.EnquiryModule),
         canActivate: []
       },
+
       {
-        path: 'customer',
-        loadChildren: () => import('./modules/customer/customer.module').then(m => m.CustomerModule),
+        path: 'payment',
+        loadChildren: () => import('./modules/payment/payment.module').then(m => m.PaymentModule),
         canActivate: []
-      }
-    ]
-  },
-  {
-    path: '',
-    component: AuthComponent,
-    children: [
+
+      },
+
+
       {
-        path: '',
-        loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule),
-      }
+        path: 'log',
+        loadChildren: () => import('./modules/log/log.module').then(m => m.LogModule),
+        canActivate: []
+
+      },
+
+     
     ]
   },
+
   {
     path: 'customerportal',
     component: CustomerportalauthComponent,
@@ -83,7 +93,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), AdmissionModule,],
+  imports: [RouterModule.forRoot(routes), LoginModule,],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

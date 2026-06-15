@@ -1,0 +1,471 @@
+
+<div class="main-content-inner" *ngIf="companycode == 'C001'">
+
+
+  <div class="main-content-inner">
+    <div class="col-12 mt-4">
+      <div class="row mb-3 align-items-center">
+        <div class="col-6">
+          <h4 style="color:rgba(31, 97, 141); font-weight: 700;">Payment Entry</h4>
+        </div>
+      </div>
+
+      <!-- SEARCH SECTION -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-md-8 d-flex align-items-center">
+              <input type="text" class="form-control me-2" placeholder="Search by Name or Mobile..."
+                     [(ngModel)]="searchQuery" (keyup.enter)="searchStudent()">
+              <button type="button" class="btn btn-primary px-4" (click)="searchStudent()">
+                <i class="fa fa-search me-1"></i> Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT LIST TABLE (Visible if results exist) -->
+      <div class="card mb-4 border-0  " *ngIf="searchedStudents.length > 0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover text-center mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>Student Name</th>
+                <th>Father Name</th>
+                <th>Contact No</th>
+                <th>Standard</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of searchedStudents" [class.table]="selectedStudent?.studentmasterid === s.studentmasterid">
+                <td class="font-weight-bold">{{s.studentname}}</td>
+                <td>{{s.fathername}}</td>
+                <td>{{s.fatherphoneno}}</td>
+                <td>{{s.standard}}</td>
+                <td>
+                  <button type="button" class="btn btn-success btn-sm px-3" (click)="selectStudent(s)">
+                    <i class="fa fa-money"></i> Pay Now
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PAYMENT WORKFLOW (Appears below the table) -->
+      <div class="card border-0 shadow-sm" *ngIf="selectedStudent">
+        <div class="card-body p-4">
+
+          <div class="p-2 mb-3 text-dark" style="background-color: #d1e2f3;">
+            <h6 class="m-0 font-weight-bold">Student Profile Details</h6>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>Student Name</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.studentname" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>GR Number</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.grnumber" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
+                <div class="col-sm-8">
+                  <ng-select [(ngModel)]="admissionEditDetails.standardid" name="standardid" placeholder="Select Standard" readonly="[true]"  >
+                    <ng-option *ngFor="let prog of standardList" [value]="prog.websettingsid">
+                      {{prog.value}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>Contact No</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.fatherphoneno" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEE SETUP -->
+          <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+            <h6 class="m-0 font-weight-bold">Log Payment</h6>
+          </div>
+
+
+          <div class="row">
+            <div class="col-lg-5 mt-3">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>From Date</b></label>
+                <div class="col-sm-8">
+                  <ejs-datepicker format='dd-MM-yyyy' name="Fromdate" [(ngModel)]='PaymentAddDetails.fromdate'  ></ejs-datepicker>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-5 mt-3  text-left">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-center"><b><span class="text-danger mr-1 text-right">*</span>To Date</b></label>
+                <div class="col-sm-8">
+                  <ejs-datepicker format='dd-MM-yyyy' name="todate" [(ngModel)]='PaymentAddDetails.todate'  ></ejs-datepicker>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="col-lg-2 text-center mt-0">
+              <button type="submit" class="btn btn-success px-4" (click)="fetchhours(paymentForm)">
+                <i class="fa fa-save"></i> Fetch Hours
+              </button>
+
+            </div>
+
+
+
+            <div class="col-lg-6 text-center mt-5">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>Total Hours</b></label>
+                <div class="col-sm-8">
+                  <input class="form-control" type="text" name="Total Hours" placeholder="Total Hours"
+                         [(ngModel)]="PaymentAddDetails.totalhours">
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-lg-6   mt-5">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Rate</b></label>
+                <div class="col-sm-8">
+                  <ng-select (change)="calculateAmount()" [(ngModel)]="PaymentAddDetails.Paymentrateid" name="Paymentrateid" placeholder="Select Rate"  >
+                    <ng-option *ngFor="let rate of ratelist" [value]="rate.websettingsid">
+                      {{rate.value}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+           
+
+
+
+            <!-- TRANSACTION ENTRY -->
+            <form #paymentForm="ngForm" novalidate>
+              <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+                <h6 class="m-0 font-weight-bold">Transaction Entry</h6>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Amount</b></label>
+                    <div class="col-sm-8">
+                      <input type="number" name="totalAmount" class="form-control" placeholder="0.00"
+                             [value]="totalPayableAmount" [(ngModel)]="PaymentAddDetails.totalamount" readonly  >
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Date</b></label>
+                    <div class="col-sm-8">
+                      <ejs-datepicker format='dd-MM-yyyy' name="paymentdate" [(ngModel)]='PaymentAddDetails.paymentdate'  ></ejs-datepicker>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-lg-6">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Mode</b></label>
+                    <div class="col-sm-8">
+                      <ng-select [(ngModel)]="PaymentAddDetails.paymentmodeid" name="paymentmodeid" placeholder="Select Mode"  >
+                        <ng-option *ngFor="let mode of paymentmodeList" [value]="mode.websettingsid">
+                          {{mode.value}}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-right"><b>Reference No</b></label>
+                    <div class="col-sm-8">
+                      <input class="form-control" type="text" name="referenceno" placeholder="Ref No "
+                             [(ngModel)]="PaymentAddDetails.referenceno">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4 pb-4">
+                <div class="col-lg-12 text-right">
+                  <hr>
+                  <button type="submit" class="btn btn-success px-4" (click)="CreatePayment(paymentForm)">
+                    <i class="fa fa-save"></i> Save Payment
+                  </button>
+                  <button type="button" class="btn btn-dark ml-2 px-4" (click)="selectedStudent = null">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Preschool ENTRY -->
+
+
+
+
+
+<div class="main-content-inner" *ngIf="companycode == 'C002'">
+
+
+  <div class="main-content-inner">
+    <div class="col-12 mt-4">
+      <div class="row mb-3 align-items-center">
+        <div class="col-6">
+          <h4 style="color:rgba(31, 97, 141); font-weight: 700;">Preschool Payment Entry</h4>
+        </div>
+      </div>
+
+      <!-- SEARCH SECTION -->
+      <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="col-md-8 d-flex align-items-center">
+              <input type="text" class="form-control me-2" placeholder="Search by Name or Mobile..."
+                     [(ngModel)]="searchQuery" (keyup.enter)="searchStudent()">
+              <button type="button" class="btn btn-primary px-4" (click)="searchStudent()">
+                <i class="fa fa-search me-1"></i> Search
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT LIST TABLE (Visible if results exist) -->
+      <div class="card mb-4 border-0  " *ngIf="searchedStudents.length > 0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover text-center mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>Student Name</th>
+                <th>Father Name</th>
+                <th>Contact No</th>
+                <th>Standard</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let s of searchedStudents" [class.table]="selectedStudent?.studentmasterid === s.studentmasterid">
+                <td class="font-weight-bold">{{s.studentname}}</td>
+                <td>{{s.fathername}}</td>
+                <td>{{s.fatherphoneno}}</td>
+                <td>{{s.standard}}</td>
+                <td>
+                  <button type="button" class="btn btn-success btn-sm px-3" (click)="selectStudent(s)">
+                    <i class="fa fa-money"></i> Pay Now
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PAYMENT WORKFLOW (Appears below the table) -->
+      <div class="card border-0 shadow-sm" *ngIf="selectedStudent">
+        <div class="card-body p-4">
+
+          <div class="p-2 mb-3 text-dark" style="background-color: #d1e2f3;">
+            <h6 class="m-0 font-weight-bold">Student Profile Details</h6>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>Student Name</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.studentname" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>GR Number</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.grnumber" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
+                <div class="col-sm-8">
+                  <ng-select [(ngModel)]="admissionEditDetails.standardid" name="standardid" placeholder="Select Standard" readonly="[true]"  >
+                    <ng-option *ngFor="let prog of standardList" [value]="prog.websettingsid">
+                      {{prog.value}}
+                    </ng-option>
+                  </ng-select>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-right"><b>Contact No</b></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control bg-light" [value]="selectedStudent.fatherphoneno" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FEE SETUP -->
+          <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+            <h6 class="m-0 font-weight-bold">Fee Installments</h6>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label text-right"><b>Select Installment</b></label>
+                <div class="col-sm-10 d-flex align-items-center">
+                  <div *ngFor="let fee of feesetupList;" class="form-check form-check-inline mr-4">
+                    <input class="form-check-input" type="checkbox" [name]="'feesetup_' + fee.feesetupid" [id]="fee.feesetupid"
+                           [(ngModel)]="fee.ischecked" (change)="calculateTotal()">
+                    <label class="form-check-label" [for]="fee.feesetupid">{{ fee.particularname }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- TRANSACTION ENTRY -->
+          <form #paymentForm="ngForm" novalidate>
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0 font-weight-bold">Transaction Entry</h6>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Amount</b></label>
+                  <div class="col-sm-8">
+                    <input type="number" name="totalAmount" class="form-control" placeholder="0.00"
+                           [value]="totalPayableAmount" [(ngModel)]="PaymentAddDetails.totalamount" readonly  >
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Date</b></label>
+                  <div class="col-sm-8">
+                    <ejs-datepicker format='dd-MM-yyyy' name="paymentdate" [(ngModel)]='PaymentAddDetails.paymentdate'  ></ejs-datepicker>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Mode</b></label>
+                  <div class="col-sm-8">
+                    <ng-select [(ngModel)]="PaymentAddDetails.paymentmodeid" name="paymentmodeid" placeholder="Select Mode"  >
+                      <ng-option *ngFor="let mode of paymentmodeList" [value]="mode.websettingsid">
+                        {{mode.value}}
+                      </ng-option>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label text-right"><b>Reference No</b></label>
+                  <div class="col-sm-8">
+                    <input class="form-control" type="text" name="referenceno" placeholder="Ref No "
+                           [(ngModel)]="PaymentAddDetails.referenceno">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-4 pb-4">
+              <div class="col-lg-12 text-right">
+                <hr>
+                <button type="submit" class="btn btn-success px-4" (click)="CreatePayment(paymentForm)">
+                  <i class="fa fa-save"></i> Save Payment
+                </button>
+                <button type="button" class="btn btn-dark ml-2 px-4" (click)="selectedStudent = null">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+

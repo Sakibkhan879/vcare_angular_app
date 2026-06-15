@@ -28,7 +28,7 @@
           </div>
           <div class="form-gp">
             <label for="exampleInputPassword1" class="text-primary">Password</label>
-            <input type="password" id="password" name="password" [(ngModel)]="loginAddDetails.password" required>
+            <input type="password" id="password"   name="password" [(ngModel)]="loginAddDetails.password" required>
             <i class="ti-lock text-primary"></i>
             <div class="text-danger"></div>
             <small *ngIf="loginForm.controls.password.dirty && !loginForm.controls.password.valid" class="form-text text-danger">

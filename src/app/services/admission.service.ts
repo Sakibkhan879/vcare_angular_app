@@ -32,25 +32,30 @@ export class AdmissionService {
   admissionListPromise() {
     this.getUserData();
     this.yearData = localStorage["yeardata"];
-    var obj = { companyid: this.userData.companyid, academicyearid: this.yearData };
-    var url = this.baseUrl + "api/Admission/LoadAlladmissionList";
+    var obj = { companymasterid: this.companymasterid, academicyearid: this.yearData };
+    var url = this.baseUrl + "api/Admission/LoadAllStudentList";
     return this.http.post<any>(url, obj);
   }
 
   admissionLoadDetailsPromise(data) {
     this.getUserData();
-    var obj = { customerinfoid: data, companyid: this.userData.companyid };
-    var url = this.baseUrl + "api/Enquiry/LoadAdmissionDetailsById";
+    var obj = { studentmasterid: data, companyid: this.userData.companyid };
+    var url = this.baseUrl + "api/Admission/LoadStudentDetailsById";
     return this.http.post<any>(url, obj);
   }
+
+   
+
 
   admissionUpdatePromise(obj) {
-    var url = this.baseUrl + "api/Enquiry/UpdateAdmissionDetailsById";
+    var url = this.baseUrl + "api/Admission/UpdateStudentDetailsById";
     return this.http.post<any>(url, obj);
   }
 
+
+
   admissionDeletePromise(data) {
-    var url = this.baseUrl + "api/Enquiry/RemoveAdmissionDetailsById";
+    var url = this.baseUrl + "api/admission/RemoveStudentDetailsById";
     return this.http.post<any>(url, data);
   }
 
@@ -73,7 +78,7 @@ export class AdmissionService {
     this.yearData = localStorage["yeardata"];
     data.academicyearid = this.yearData;
     data.companyid = this.userData.companyid;
-    var url = this.baseUrl + "api/user/UploadEnquiryData";
+    var url = this.baseUrl + "api/user/UploadAdmissionData";
     return this.http.post<any>(url, data);
   }
 

@@ -10,16 +10,20 @@ import { UtilityService } from '../../../services/utility.service';
   templateUrl: './admissionedit.component.html'
 })
 export class AdmissioneditComponent implements OnInit, AfterViewInit {
-  Admissioninfoid: any;
+  studentmasterid: any;
 
   // Object to hold the form data
   admissionEditDetails: any = {};
 
   // Arrays to hold dropdown options (Required by HTML)
-  programList: any[] = [];
-  AdmissionType: any[] = [];
+  occupationList: any[] = [];
+  standardList: any[] = [];
+  sourceList: any[] = [];
   stateList: any[] = [];
   batchList: any[] = [];
+  typeList = [];
+  genderList = [];
+  divisionList = [];
 
   constructor(
     private _router: Router,
@@ -32,18 +36,70 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     // Load dropdown data when the component initializes
-    this.loadDropdownData();
+
+    this.loadWebSetting();  
   }
 
   ngAfterViewInit() {
     // Grab the ID from the URL parameters and load the student's data
+
     this.route.queryParams.subscribe(params => {
-      if (params.admissioninfoid) {
-        this.Admissioninfoid = params.admissioninfoid;
+      if (params.studentmasterid) {
+        this.studentmasterid = params.studentmasterid;
         this.loadAdmissionDetails();
       }
     });
   }
+
+
+
+  loadWebSetting() {
+    this.occupationList = [];
+    var sourceProm = this.utilityService.getWebSettingByDomainPromise('OCCUPATION');
+    sourceProm.subscribe(result => {
+      this.occupationList = result.data;
+    });
+
+    this.typeList = [];
+    var typeProm = this.utilityService.getWebSettingByDomainPromise('ADMISSION_TYPE');
+    typeProm.subscribe(result => {
+      this.typeList = result.data;
+    });
+
+    this.batchList = [];
+    var typeProm = this.utilityService.getWebSettingByDomainPromise('BATCH_TYPE');
+    typeProm.subscribe(result => {
+      this.batchList = result.data;
+    });
+
+    this.standardList = [];
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('STANDARD');
+    programProm.subscribe(result => {
+      this.standardList = result.data;
+    });
+
+    var programProm = this.utilityService.getWebSettingByDomainPromise('DIVISION');
+    programProm.subscribe(result => {
+      this.divisionList = result.data;
+    });
+
+    this.genderList = [];
+
+    var genderProm = this.utilityService.getWebSettingByDomainPromise('GENDER');
+    genderProm.subscribe(result => {
+      this.genderList = result.data;
+    });
+
+    this.stateList = [];
+
+    var stateProm = this.utilityService.getWebSettingByDomainPromise('STATE');
+    stateProm.subscribe(result => {
+      this.stateList = result.data;
+    });
+
+  }
+
 
   // --- API CALLS TO LOAD DATA ---
 
@@ -72,7 +128,7 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
   }
 
   loadAdmissionDetails() {
-    const loadProm = this.admissionService.admissionLoadDetailsPromise(this.Admissioninfoid);
+    const loadProm = this.admissionService.admissionLoadDetailsPromise(this.studentmasterid);
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
         this.admissionEditDetails = result.data[0];
@@ -84,7 +140,21 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
     });
   }
 
+
+
+  clear() {
+    // Reset but keep the default locked values
+    this.admissionEditDetails = {
+      academicyearid: '',
+      enquirydate: '',
+      gender: '',
+      hassibling: ''
+    };
+  }
+
   // --- FORM ACTIONS ---
+
+
 
   updateAdmission(form: NgForm) {
     if (form.valid) {
@@ -92,7 +162,7 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
       addProm.subscribe(result => {
         if (result && result.status && result.data) {
           this.toastr.success(result.message || 'Admission updated successfully!');
-          this._router.navigate(['app/admission']); // Redirect back to list after success
+          this._router.navigate(['app/admission']);
         } else {
           this.toastr.error(result.message || 'Error updating admission.');
         }

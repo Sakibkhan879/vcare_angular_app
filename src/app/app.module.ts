@@ -18,15 +18,14 @@ import { CustomerportalauthComponent } from './boot/customerportalauth/customerp
 import { CustomerportalmainComponent } from './boot/customerportalmain/customerportalmain.component';
 import { EventQueueService } from './services/appevents.service';
 import { RequestInterceptor } from './services/http-interceptor';
-
-@NgModule({
+   @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     AuthComponent,
     CustomerportalmainComponent,
     CustomerportalauthComponent,
-  ],
+        ],
   imports: [
     CommonModule,
     HttpClientModule,

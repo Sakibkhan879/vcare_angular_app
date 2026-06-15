@@ -100,6 +100,7 @@ isCompanyInvalid: boolean = false;
     if (localStorage["userdata"]) {
       this.userData = JSON.parse(localStorage["userdata"]);
     }
+
     if (localStorage["companymasterid"]) {
       this.companymasterid = JSON.parse(localStorage["companymasterid"]);
     }
@@ -108,6 +109,7 @@ isCompanyInvalid: boolean = false;
   }
 
   financialyearSelectedValue() {
+
     localStorage["yeardata"] = this.yearDetails;
     this.loadcustomerlist(this.yearDetails);
     console.log(this._router.url);
@@ -120,9 +122,23 @@ isCompanyInvalid: boolean = false;
     console.log(this.yearDetails);
   }
 
-companySelectedValue() {
+
+  SlotSelectedValue() {
+    debugger
+    localStorage["companymasterid"] = this.companymasterid;
+    this.loadcustomerlist(this.yearDetails);
+    console.log(this._router.url);
+    if (this._router.url == "/app/dashboard") {
+      this.eventService.loadMainDashboardData.emit({
+        data: "Check for dashboard data"
+      });
+    }
+
+    console.log(this.yearDetails);
+  }
+
+  companySelectedValue() {
   if (!this.companymasterid || this.companymasterid === 0) {
-    // Show tooltip when user tries to interact but nothing selected
     this.isCompanyInvalid = true;
     return;
   }
@@ -130,15 +146,25 @@ companySelectedValue() {
   // Hide tooltip as soon as a company is selected
   this.isCompanyInvalid = false;
 
+
+    var selectedobj = this.companyList.filter(x => {
+      if (x.companymasterid == this.companymasterid)
+        return true;
+    })
+
+    if (selectedobj.length > 0) {
+      localStorage["companycode"]  =  selectedobj[0].companycode;
+    }
   // Store and navigate
   localStorage["companymasterid"] = this.companymasterid;
   console.log("Selected Company ID:", this.companymasterid);
 
-  if (this._router.url == "/app/dashboard") {
-    this.eventService.loadMainDashboardData.emit({
-      data: "Check for dashboard data"
-    });
-  }
+   if (this._router.url == "/app/dashboard") {
+      
+     this.eventService.loadMainDashboardData.emit({
+       data: "Check for dashboard data"
+     });
+   }
   this._router.navigate(["/app/dashboard"]);
 }
 
@@ -146,10 +172,14 @@ companySelectedValue() {
 checkCompanySelection() {
   if (!this.companymasterid || this.companymasterid === 0) {
     this.isCompanyInvalid = true; // show tooltip
+
+    
   } else {
     this.isCompanyInvalid = false; // hide tooltip
   }
-}
+  }
+
+  
   loadYearWebSetting() {
     var yearProm = this.utilityService.LoadAcademicYearList({});
     yearProm.subscribe(result => {
@@ -168,6 +198,12 @@ checkCompanySelection() {
     this.utilityService.LoadAllCompanyList(body).subscribe((res) => {
       if (res && res.data) {
         this.companyList = res.data;
+
+        const exists = this.companyList.some(c => c.companymasterid === this.companymasterid);
+        if (!exists) {
+          this.companymasterid = 0;
+          localStorage.removeItem("companymasterid");
+        }
 
         // Only reset company selection if it's not already set in localStorage
         // or if the stored company is not in the new company list

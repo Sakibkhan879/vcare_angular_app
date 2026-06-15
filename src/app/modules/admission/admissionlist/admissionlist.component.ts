@@ -62,7 +62,7 @@ export class AdmissionlistComponent implements AfterViewInit {
 
   editPage(val: any) {
     this._router.navigate(['app/admission/edit'], {
-      queryParams: { admissioninfoid: val.admissioninfoid }
+      queryParams: { studentmasterid: val.studentmasterid }
     });
   }
 
@@ -86,10 +86,10 @@ export class AdmissionlistComponent implements AfterViewInit {
 
         // Calculate the stats dynamically
         this.admissionStats.total = this.admissionDetails.length;
-        this.admissionStats.playgroup = this.admissionDetails.filter(x => x.programname === 'PlayGroup').length;
-        this.admissionStats.nursery = this.admissionDetails.filter(x => x.programname === 'Nursery').length;
-        this.admissionStats.Junior = this.admissionDetails.filter(x => x.programname === 'Junior').length;
-        this.admissionStats.Senior = this.admissionDetails.filter(x => x.programname === 'Senior').length;
+        this.admissionStats.playgroup = this.admissionDetails.filter(x => x.standardname === 'PlayGroup').length;
+        this.admissionStats.nursery = this.admissionDetails.filter(x => x.standardname === 'Nursery').length;
+        this.admissionStats.Junior = this.admissionDetails.filter(x => x.standardname === 'Junior').length;
+        this.admissionStats.Senior = this.admissionDetails.filter(x => x.standardname === 'Senior').length;
 
         this.cdr.detectChanges();
 
@@ -106,8 +106,12 @@ export class AdmissionlistComponent implements AfterViewInit {
   }
 
 
+  // ==========================================
+  // DELETE LOGIC
+  // ==========================================
+
   openDeleteModel(data: any) {
-    this.currentAdmission= data;
+    this.currentAdmission = data;
     this.ngxSmartModalService.getModal('deleteModalPopup').open();
   }
 
@@ -116,10 +120,10 @@ export class AdmissionlistComponent implements AfterViewInit {
   }
 
   deleteData() {
-    var deleteProm = this.admissionService.admissionDeletePromise(this.currentAdmission);
+    var deleteProm = this.admissionService.admissionDeletePromise(this.currentAdmission );
     deleteProm.subscribe(result => {
       if (result && result.status && result.data) {
-        this.toastr.success(result.message);
+        this.toastr.success("Deleted successfully");
         this.closeRecord();
         this.refreshPage();
       } else {
@@ -128,9 +132,10 @@ export class AdmissionlistComponent implements AfterViewInit {
     });
   }
 
+
   closeImportRecord() {
     this.ngxSmartModalService.getModal('importAdmissionPopup').close();
-    this.admissionFileDetail.enquiryfile = "";
+    this.admissionFileDetail.admissionfile = "";
   }
 
   checkAdmissionDetails() {
