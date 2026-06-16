@@ -9,6 +9,7 @@ declare var $;
   })
 export class SidebarComponent implements AfterViewInit {
 
+  companycode: string = '';
 
   ngAfterViewInit() {
     if (window.innerWidth <= 1364) {
@@ -33,6 +34,10 @@ export class SidebarComponent implements AfterViewInit {
     $('.settings-list').slimScroll({
       height: 'calc(100vh - 158px)'
     });
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    this.companycode = userData?.companycode;
+ 
+
 
 
     $(window).on('scroll', function () {
@@ -50,7 +55,7 @@ export class SidebarComponent implements AfterViewInit {
 
   }
   constructor(private _router: Router) {
-
+    
   }
 
 
@@ -79,9 +84,19 @@ export class SidebarComponent implements AfterViewInit {
     case "payment":
       this._router.navigate(['app/payment']);
       break;
+
+    //case "log":
+    //  if (this.companycode === 'C001') {
+    //    console.log(this.companycode)
+    //    this._router.navigate(['app/log']);
+    //  }
+    //  break;
+
+
     case "log":
       this._router.navigate(['app/log']);
       break;
+
     case "customer":
       this._router.navigate(['app/customer']);
       break;
@@ -120,8 +135,7 @@ isAdmin() {
   let userdata: any = {};
   const storedUserdata = localStorage.getItem('userdata');
   if (storedUserdata) {
-    userdata = JSON.parse(storedUserdata);
-   
+    userdata = JSON.parse(storedUserdata);  
     
   }
   return userdata && userdata.rolecode === 'ADMIN';

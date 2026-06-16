@@ -1,2 +1,203 @@
+<div class="main-content-inner">
 
-<h2>editttt pageee<</h2>>
+  <div class="col-12 mt-4">
+
+    <div class="row mb-3 align-items-center">
+      <div class="col-6">
+        <h4 style="color:rgba(31, 97, 141); font-weight:700;">
+          Edit Log
+        </h4>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm" *ngIf="LogEditDetails">
+
+      <div class="card-body p-4">
+
+        <div class="p-2 mb-3 text-dark"
+             style="background-color:#d1e2f3;">
+          <h6 class="m-0 font-weight-bold">
+            Student Profile Details
+          </h6>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label text-right">
+                <b>Student Name</b>
+              </label>
+
+              <div class="col-sm-8">
+                <input type="text"
+                       class="form-control bg-light"
+                       [value]="LogEditDetails.studentname"
+                       readonly>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label text-right">
+                <b>GR Number</b>
+              </label>
+
+              <div class="col-sm-8">
+                <input type="text"
+                       class="form-control bg-light"
+                       [value]="LogEditDetails.grnumber"
+                       readonly>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-2">
+
+          <div class="col-lg-6">
+            <div class="form-group row">
+
+              <label class="col-sm-4 col-form-label text-right">
+                <b>Program Name</b>
+              </label>
+
+              <div class="col-sm-8">
+
+                <ng-select [(ngModel)]="LogEditDetails.standardid"
+                           name="standardid"
+                           [readonly]="true">
+
+                  <ng-option *ngFor="let prog of standardList"
+                             [value]="prog.websettingsid">
+
+                    {{prog.value}}
+
+                  </ng-option>
+
+                </ng-select>
+
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group row">
+
+              <label class="col-sm-4 col-form-label text-right">
+                <b>Contact No</b>
+              </label>
+
+              <div class="col-sm-8">
+
+                <input type="text"
+                       class="form-control bg-light"
+                       [value]="LogEditDetails.fatherphoneno"
+                       readonly>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <form #LogForm="ngForm" novalidate>
+
+          <div class="p-2 mb-3 mt-4 text-dark"
+               style="background-color:#d1e2f3;">
+
+            <h6 class="m-0 font-weight-bold">
+              Log Entry
+            </h6>
+
+          </div>
+
+          <div class="row">
+
+            <div class="col-lg-6">
+
+              <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label text-right">
+                  <b>
+                    <span class="text-danger mr-1">*</span>
+                    Log Date
+                  </b>
+                </label>
+
+                <div class="col-sm-8">
+
+                  <ejs-datepicker format="dd-MM-yyyy"
+                                  name="logdate"
+                                  [(ngModel)]="LogEditDetails.logdate">
+                  </ejs-datepicker>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-lg-6">
+
+              <div class="form-group row">
+
+                <label class="col-sm-4 col-form-label text-right">
+                  <b>
+                    <span class="text-danger mr-1">*</span>
+                    Log Hours
+                  </b>
+                </label>
+
+                <div class="col-sm-8">
+
+                  <input class="form-control"
+                         type="text"
+                         name="loghours"
+                         [(ngModel)]="LogEditDetails.loghours">
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row mt-4 pb-4">
+
+            <div class="col-lg-12 text-right">
+
+              <hr>
+
+              <button type="submit"
+                      class="btn btn-success px-4"
+                      (click)="UpdateLog(LogForm)">
+                <i class="fa fa-save"></i> Update Log
+              </button>
+
+              <button type="button"
+                      class="btn btn-dark ml-2 px-4"
+                      (click)="cancelEdit()">
+
+                Cancel
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

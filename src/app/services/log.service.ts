@@ -46,12 +46,31 @@ export class LogService {
     return this.http.post<any>(url, obj);
  }
 
-   
 
-  RemoveLogListByIdPromise(data: any) {
-    return this.http.post<any>(this.baseUrl + '/RemoveLogListById', data);
+
+  LoadLogDetailsByIdPromise(data) {
+    this.getUserData();
+    var obj = {
+      logmasterid: data.logmasterid,
+      companycode: this.userData.companycode
+    };
+    var url = this.baseUrl + "api/log/LoadLogDetailsById";
+    return this.http.post<any>(url, obj);
   }
 
+
+
+
+  UpdateLogDetailsByIdPromise(obj) {
+    var url = this.baseUrl + "api/log/UpdateLogDetailsById";
+    return this.http.post<any>(url, obj);
+  }
+  RemoveLogListByIdPromise(data: any) {
+    return this.http.post<any>(
+      this.baseUrl + 'api/log/RemoveLogListById',
+      data
+    );
+  }
 
   fetchRfmScore(data) {
     var urlfinal = this.baseUrl + "api/recommendation/FetchRfmScore";

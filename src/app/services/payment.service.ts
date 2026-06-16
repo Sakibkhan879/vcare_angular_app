@@ -110,7 +110,7 @@ export class PaymentService {
   paymentLoadDetailsPromise(data) {
     this.getUserData();
     var obj = { paymentmasterid: data };
-    var url = this.baseUrl + "api/Payment/LoadPaymentsDetailsById";
+    var url = this.baseUrl + "api/Payment/LoadPaymentDetailsById";
     return this.http.post<any>(url, obj);
   }
 

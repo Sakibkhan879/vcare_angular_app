@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~9.1.13",
     "@angular/router": "~9.1.13",
     "@ng-select/ng-select": "^5.1.0",
-    "@syncfusion/ej2-angular-calendars": "^18.4.42",
+    "@syncfusion/ej2-angular-calendars": "^18.4.48",
     "@syncfusion/ej2-base": "^18.4.42",
     "ng-http-loader": "^9.1.0",
     "ng-select2": "^1.2.4",

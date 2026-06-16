@@ -19,7 +19,7 @@ export class PaymentlistComponent implements AfterViewInit {
   companymasterid: number = 0
 
   constructor(
-    private router: Router,
+    private _router: Router,
     private paymentService: PaymentService, // Injected PaymentService
     private toastr: ToastrService,
     public ngxSmartModalService: NgxSmartModalService
@@ -35,6 +35,14 @@ export class PaymentlistComponent implements AfterViewInit {
   refreshPage() {
     this.loadPayments();
   }
+
+
+  editPage(val: any) {
+    this._router.navigate(['app/payment/edit'], {
+      queryParams: { paymentmasterid: val.paymentmasterid }
+    });
+  }
+
 
   loadPayments() {
     // Destroy old datatable instance if it exists
@@ -68,12 +76,12 @@ export class PaymentlistComponent implements AfterViewInit {
   }
 
   openMakePayment() {
-    this.router.navigate(['app/payment/add']);
+    this._router.navigate(['app/payment/add']);
   }
 
   viewPayment(item: any) {
     // Updated to use paymentmasterid based on your service logic
-    this.router.navigate(['app/payment/view'], {
+    this._router.navigate(['app/payment/view'], {
       queryParams: { id: item.paymentmasterid }
     });
   }
