@@ -79,8 +79,9 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
       this.standardList = result.data;
     });
 
-    var programProm = this.utilityService.getWebSettingByDomainPromise('DIVISION');
-    programProm.subscribe(result => {
+    this.divisionList = [];
+    var typeProm = this.utilityService.getWebSettingByDomainPromise('DIVISION');
+    typeProm.subscribe(result => {
       this.divisionList = result.data;
     });
 
@@ -96,8 +97,7 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
     var stateProm = this.utilityService.getWebSettingByDomainPromise('STATE');
     stateProm.subscribe(result => {
       this.stateList = result.data;
-    });
-
+    });     
   }
 
 
@@ -127,18 +127,46 @@ export class AdmissioneditComponent implements OnInit, AfterViewInit {
     // });
   }
 
+
+
+
   loadAdmissionDetails() {
     const loadProm = this.admissionService.admissionLoadDetailsPromise(this.studentmasterid);
+
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
+
         this.admissionEditDetails = result.data[0];
-        console.log('Loaded Data:', this.admissionEditDetails);
-        this.cdr.markForCheck(); // Manually trigger change detection
+
+        // Convert string values to number
+        this.admissionEditDetails.fatheroccupationid =
+          Number(this.admissionEditDetails.fatheroccupationid);
+
+        this.admissionEditDetails.motheroccupationid =
+          Number(this.admissionEditDetails.motheroccupationid);
+
+        this.cdr.detectChanges();
+
       } else {
         this.toastr.error('Failed to load admission details.');
       }
     });
+
+
   }
+
+  //loadAdmissionDetails() {
+  //  const loadProm = this.admissionService.admissionLoadDetailsPromise(this.studentmasterid);
+  //  loadProm.subscribe(result => {
+  //    if (result && result.status && result.data && result.data.length > 0) {
+  //      this.admissionEditDetails = result.data[0];
+  //      console.log('Loaded Data:', this.admissionEditDetails);
+  //      this.cdr.markForCheck(); // Manually trigger change detection
+  //    } else {
+  //      this.toastr.error('Failed to load admission details.');
+  //    }
+  //  });
+  //}
 
 
 

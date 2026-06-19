@@ -79,7 +79,7 @@ export class LogaddComponent implements OnInit {
 
   selectStudent(student: any) {
     // Use a descriptive name for the logic of fetching details
-    console.log(student.studentmasterid)
+  
     this.LoadStudentForLog(student);
   }
 
@@ -89,9 +89,7 @@ export class LogaddComponent implements OnInit {
         const data = result.data.Table[0];
 
         this.selectedStudent = data;
-        this.admissionEditDetails = { ...data };
-
-          
+        this.admissionEditDetails = { ...data };        
 
 
         this.LogAddDetails = {

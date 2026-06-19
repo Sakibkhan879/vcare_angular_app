@@ -34,8 +34,7 @@ export class SidebarComponent implements AfterViewInit {
     $('.settings-list').slimScroll({
       height: 'calc(100vh - 158px)'
     });
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    this.companycode = userData?.companycode;
+     
  
 
 
@@ -94,7 +93,14 @@ export class SidebarComponent implements AfterViewInit {
 
 
     case "log":
-      this._router.navigate(['app/log']);
+      const companyCode = localStorage.getItem('companycode');
+      console.log(companyCode);
+      if (companyCode === 'C001') {
+        this._router.navigate(['app/log']);
+      } else {
+        alert('Access Denied For Preschool');
+      }
+
       break;
 
     case "customer":

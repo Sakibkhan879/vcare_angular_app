@@ -143,7 +143,7 @@ import { EnquiryService } from '../../../services/enquiry.service';
 import { DashboardService } from '../../../services/dashboard.service';
 import { AdmissionService } from '../../../services/admission.service';
 import { PaymentService } from '../../../services/payment.service';
-
+import { EventQueueService } from '../../../services/appevents.service';
 
 import * as XLSX from 'xlsx';
 
@@ -184,18 +184,31 @@ export class DashboardlistComponent implements OnInit {
     private dashboardService: DashboardService,
     private admissionService: AdmissionService,
     private paymentService: PaymentService,
+    private eventService: EventQueueService,
     public cdr: ChangeDetectorRef,
     private toastr: ToastrService
   ) { }
+
+
+
+  loadDashboardData() {
+
+    this.loadEnquiryStats();
+    this.loadAdmissionStats();
+    this.loadEnquiryListData();
+    this.loadRevenueStats();
+
+  }
 
   // ==========================================
   // LIFECYCLE & NAVIGATION
   // ==========================================
   ngOnInit() {
-    this.loadEnquiryStats();
-    this.loadAdmissionStats();
-    this.loadEnquiryListData();
-    this.loadRevenueStats();
+    this.loadDashboardData();
+    this.eventService.loadMainDashboardData.subscribe(() => {
+      console.log('Dashboard Refresh Triggered');
+      this.loadDashboardData();
+    });
 
   }
 
@@ -255,35 +268,68 @@ export class DashboardlistComponent implements OnInit {
 
 
   loadEnquiryListData() {
-    if ($('.erp-datatable').length) {
-      if ($.fn.DataTable.isDataTable('.erp-datatable')) {
-        var t = $('.erp-datatable').DataTable();
-        t.destroy();
-      }
+    if ($.fn.DataTable.isDataTable('#dataTable')) {
+      $('#dataTable').DataTable().clear().destroy();
     }
-
     this.enquiryDetails = [];
-
-    var listProm = this.dashboardService.enquiryListPromise();
-    listProm.subscribe(result => {
-      if (result && result.status && result.data && result.data.length > 0) {
-
-        // Load the table data
-        this.enquiryDetails = result.data;
-
-
+    this.dashboardService.enquiryListPromise().subscribe(result => {
+      if (result && result.status) {
+        this.enquiryDetails = result.data || [];
         this.cdr.detectChanges();
+        setTimeout(() => {
+          $('#dataTable').DataTable({
+            destroy: true,
+            retrieve: true,
+            ordering: false
+          });
+
+        }, 200);
 
       } else {
+        this.enquiryDetails = [];
+        this.toastr.warning('No Enquiry Found');
 
-        this.toastr.warning("No Enquiry Found");
       }
 
-      if ($('.erp-datatable').length) {
-        $('.erp-datatable').DataTable({ "ordering": false });
-      }
     });
 
-
   }
+
+
+  //loadEnquiryListData() {
+  //  if ($('.erp-datatable').length) {
+  //    if ($.fn.DataTable.isDataTable('.erp-datatable')) {
+  //      var t = $('.erp-datatable').DataTable();
+  //      t.destroy();
+  //    }
+  //  }
+
+  //  this.enquiryDetails = [];
+
+  //  var listProm = this.dashboardService.enquiryListPromise();
+  //  listProm.subscribe(result => {
+  //    if (result && result.status && result.data && result.data.length > 0) {
+
+  //      // Load the table data
+  //      this.enquiryDetails = result.data;
+
+
+  //      this.cdr.detectChanges();
+
+  //    } else {
+
+  //      this.toastr.warning("No Enquiry Found");
+  //    }
+
+  //    if ($('.erp-datatable').length) {
+  //      $('.erp-datatable').DataTable({ "ordering": false });
+  //    }
+  //  });
+
+
+  //}
+
+
+
+
 }

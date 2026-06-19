@@ -52,10 +52,13 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Division</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionAddDetails.divisionid" name="divisionid" placeholder="Select Division" required>
-                      <ng-option *ngFor="let prog of divisionList" [value]="prog.websettingsid">
+                    <ng-select [(ngModel)]="admissionAddDetails.divisionid"   name="divisionid">
+
+                      <ng-option *ngFor="let prog of divisionList"
+                                 [value]="prog.websettingsid">
                         {{prog.value}}
                       </ng-option>
+
                     </ng-select>
                   </div>
                 </div>

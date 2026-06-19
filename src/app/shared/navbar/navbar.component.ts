@@ -128,11 +128,7 @@ isCompanyInvalid: boolean = false;
     localStorage["companymasterid"] = this.companymasterid;
     this.loadcustomerlist(this.yearDetails);
     console.log(this._router.url);
-    if (this._router.url == "/app/dashboard") {
-      this.eventService.loadMainDashboardData.emit({
-        data: "Check for dashboard data"
-      });
-    }
+    this.eventService.loadMainDashboardData.emit();
 
     console.log(this.yearDetails);
   }

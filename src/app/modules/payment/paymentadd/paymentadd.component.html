@@ -158,7 +158,7 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Rate</b></label>
                 <div class="col-sm-8">
-                  <ng-select (change)="calculateAmount()" [(ngModel)]="PaymentAddDetails.Paymentrateid" name="Paymentrateid" placeholder="Select Rate"  >
+                  <ng-select (change)="calculateAmount()" [(ngModel)]="PaymentAddDetails.rateid" name="rateid" placeholder="Select Rate"  >
                     <ng-option *ngFor="let rate of ratelist" [value]="rate.websettingsid">
                       {{rate.value}}
                     </ng-option>

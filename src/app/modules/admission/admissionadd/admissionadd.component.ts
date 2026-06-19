@@ -36,6 +36,7 @@ export class AdmissionaddComponent implements OnInit {
   ngOnInit() {
     this.loadWebSetting();
 
+
   }
 
 
@@ -66,6 +67,7 @@ export class AdmissionaddComponent implements OnInit {
     } else {
       this.toastr.error("Please enter all mandatory fields with proper information!");
     }
+    console.log("Final Payload:", this.admissionAddDetails);
   }
 
 

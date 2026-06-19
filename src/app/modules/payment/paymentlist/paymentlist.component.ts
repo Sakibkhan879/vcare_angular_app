@@ -16,6 +16,9 @@ export class PaymentlistComponent implements AfterViewInit {
 
   paymentList: any[] = [];
   currentPayment: any[] = [];
+
+  companycode: string = "";
+
   companymasterid: number = 0
 
   constructor(
@@ -23,7 +26,11 @@ export class PaymentlistComponent implements AfterViewInit {
     private paymentService: PaymentService, // Injected PaymentService
     private toastr: ToastrService,
     public ngxSmartModalService: NgxSmartModalService
-  ) { }
+  ) {
+    if (localStorage["companycode"]) {
+      this.companycode = localStorage["companycode"];
+    }
+  }
 
 
 

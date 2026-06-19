@@ -102,10 +102,12 @@ export class PaymentaddComponent implements OnInit {
         this.feesetupList = result.data.Table1;
 
 
-         this.PaymentAddDetails = {
-           studentmasterid: data.studentmasterid,
-           academicyearid: data.academicyearid,
-           paymentdate: new Date(),
+        this.PaymentAddDetails = {
+          studentmasterid: data.studentmasterid,
+          academicyearid: data.academicyearid,
+          companymasterid: data.companymasterid,
+          paymentdate: new Date(),
+          totalamount: 0
             
 
 
@@ -181,24 +183,57 @@ export class PaymentaddComponent implements OnInit {
 
   }
 
+
+
   CreatePayment(form: NgForm) {
+
     if (form.valid) {
-      // Add logic here to include installments in PaymentAddDetails if your API requires it
 
       this.PaymentAddDetails.feedetails = this.feesetupList;
-        
-      this.paymentService.paymentsmadeAddPromise(this.PaymentAddDetails).subscribe(result => {
-        if (result && result.status) {
-          this.toastr.success(result.message || 'Payment saved successfully');
-          this._router.navigate(['app/payment']);
-        } else {
-          this.toastr.error(result.message || 'Error saving payment');
-        }
-      });
+
+      // Company 2 doesn't use dates
+      if (this.PaymentAddDetails.companymasterid == 1) {
+        this.PaymentAddDetails.fromdate = null;
+        this.PaymentAddDetails.todate = null;
+      }
+
+      console.log(this.PaymentAddDetails);
+
+      this.paymentService.paymentsmadeAddPromise(this.PaymentAddDetails)
+        .subscribe(result => {
+
+          if (result && result.status) {
+            this.toastr.success(result.message || 'Payment saved successfully');
+            this._router.navigate(['app/payment']);
+          } else {
+            this.toastr.error(result.message || 'Error saving payment');
+          }
+
+        });
+
     } else {
       this.toastr.error("Please fill all mandatory fields");
     }
   }
+
+  //CreatePayment(form: NgForm) {
+  //  if (form.valid) {
+  //    // Add logic here to include installments in PaymentAddDetails if your API requires it
+
+  //    this.PaymentAddDetails.feedetails = this.feesetupList;
+        
+  //    this.paymentService.paymentsmadeAddPromise(this.PaymentAddDetails).subscribe(result => {
+  //      if (result && result.status) {
+  //        this.toastr.success(result.message || 'Payment saved successfully');
+  //        this._router.navigate(['app/payment']);
+  //      } else {
+  //        this.toastr.error(result.message || 'Error saving payment');
+  //      }
+  //    });
+  //  } else {
+  //    this.toastr.error("Please fill all mandatory fields");
+  //  }
+  //}
 
   cancel() {
     this._router.navigate(['app/payment']);

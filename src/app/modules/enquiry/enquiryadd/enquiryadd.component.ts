@@ -17,7 +17,7 @@ export class EnquiryaddComponent implements OnInit {
 
   // FIXED: Initialize with the property existing as 'false' (No)
   enquiryAddDetails: any = {
-    hassibling: false
+    hassibling: []
   };
 
   constructor(
@@ -40,7 +40,7 @@ export class EnquiryaddComponent implements OnInit {
     if (form.valid) {
       this.enquiryService.enquiryAddPromise(this.enquiryAddDetails).subscribe(result => {
         if (result && result.status) {
-          this.toastr.success("AEnquiry created successfully", "Success");
+          this.toastr.success("Enquiry created successfully", "Success");
           this.clear(); 
           form.resetForm(); 
         } else {

@@ -21,6 +21,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
   AdmissionType: any[] = [];
   stateList: any[] = [];
   batchList: any[] = [];
+  genderList: any[] = [];
 
   constructor(
     private _router: Router,
@@ -33,6 +34,9 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadDropdownData();
+    this.loadProgramWebSetting();
+    this.loadSourceWebSetting();
+    this.loadGenderWebSetting();
   }
 
   ngAfterViewInit() {
@@ -44,29 +48,31 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     });
   }
 
+
   loadProgramWebSetting() {
     this.programList = [];
 
-    var programProm = this.utilityService.getWebSettingByDomainPromise('STATE');
-    programProm.subscribe(result => {
-      this.programList = result.data;
-    });
+    this.utilityService.getWebSettingByDomainPromise('PROGRAM')
+      .subscribe(result => {
+        this.programList = result.data || [];
+        console.log('Program List', this.programList);
+      });
+  }
 
-
-    var programProm = this.utilityService.getWebSettingByDomainPromise('PROGRAM');
-    programProm.subscribe(result => {
-      this.programList = result.data;
-    });
+  loadGenderWebSetting() {
+    this.genderList = [];
+    this.utilityService.getWebSettingByDomainPromise('GENDER')     .subscribe(result => {
+        this.genderList = result.data || [];
+        console.log('Gender List', this.genderList);
+      });
   }
  
-
   loadSourceWebSetting() {
     this.sourceList = [];
-    var sourceProm = this.utilityService.getWebSettingByDomainPromise('STATE');
+    var sourceProm = this.utilityService.getWebSettingByDomainPromise('REFERAL');
     sourceProm.subscribe(result => {
       this.sourceList = result.data;
     });
-
   }
 
 
@@ -76,6 +82,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     });
 
   }
+
 
   loadEnquiryDetails() {
     const loadProm = this.enquiryService.enquiryLoadDetailsPromise(this.enquirymasterid);
@@ -98,6 +105,13 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
       addProm.subscribe(result => {
         if (result && result.status && result.data) {
           this.toastr.success(result.message);
+
+          // Convert string values to number
+          this.enquiryEditDetails.genderid =
+            Number(this.enquiryEditDetails.genderid);
+
+          this.enquiryEditDetails.programid =
+            Number(this.enquiryEditDetails.programid);
 
           // Reset form but keep default locked values
           form.reset({});
