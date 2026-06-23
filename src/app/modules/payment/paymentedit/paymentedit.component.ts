@@ -89,6 +89,39 @@ export class PaymenteditComponent implements OnInit, AfterViewInit {
 
   }
 
+
+
+
+
+  fetchhours() {
+
+    ////if (!this.PaymentAddDetails.fromdate) {
+    ////  this.toastr.error('Please select From Date');
+    ////  return;
+    ////}
+
+    ////if (!this.PaymentAddDetails.todate) {
+    ////  this.toastr.error('Please select To Date');
+    ////  return;
+    ////}
+
+    this.paymentService.LoadLogForPaymentPromise(this.PaymentEditDetails)
+      .subscribe(result => {
+        if (result && result.status) {
+          this.PaymentEditDetails.totalhours =
+            result.data.reduce(
+              (sum, item) => sum + Number(item.loghours),
+              0
+            );
+          this.toastr.success('Hours fetched successfully');
+          this.calculateAmount(); // recalculate amount automatically
+        }
+
+      });
+  }
+
+
+
   calculateTotal() {
 
     const sum = this.feesetupList
@@ -101,53 +134,73 @@ export class PaymenteditComponent implements OnInit, AfterViewInit {
 
   }
 
-  fetchhours(form: NgForm) {
+  //fetchhours(form: NgForm) {
 
-    if (form.valid) {
+  //  if (form.valid) {
 
-      this.paymentService.LoadLogForPaymentPromise(this.PaymentEditDetails)
-        .subscribe(result => {
+  //    this.paymentService.LoadLogForPaymentPromise(this.PaymentEditDetails)
+  //      .subscribe(result => {
 
-          if (result && result.status) {
+  //        if (result && result.status) {
 
-            this.PaymentEditDetails.totalhours =
-              result.data.reduce(
-                (sum, item) => sum + Number(item.loghours),
-                0
-              );
+  //          this.PaymentEditDetails.totalhours =
+  //            result.data.reduce(
+  //              (sum, item) => sum + Number(item.loghours),
+  //              0
+  //            );
 
-            this.toastr.success(
-              result.message || 'Hours fetched successfully'
-            );
-          }
+  //          this.toastr.success(
+  //            result.message || 'Hours fetched successfully'
+  //          );
+  //        }
 
-        });
+  //      });
 
-    }
+  //  }
 
-  }
+  //}
+
+
 
   calculateAmount() {
 
     const selectedRate = this.ratelist.find(
-      x => x.websettingsid ==
-        this.PaymentEditDetails.Paymentrateid
+      x => x.websettingsid == this.PaymentEditDetails.rateid
     );
 
     if (selectedRate) {
+      const hours = Number(this.PaymentEditDetails.totalhours) || 0;
+      const rate = Number(selectedRate.value) || 0;
 
-      const hours =
-        Number(this.PaymentEditDetails.totalhours) || 0;
-
-      const rate =
-        Number(selectedRate.value) || 0;
-
-      this.PaymentEditDetails.totalamount =
-        hours * rate;
-
+      this.PaymentEditDetails.totalamount = hours * rate;
     }
 
+
   }
+
+
+
+  //calculateAmount() {
+
+  //  const selectedRate = this.ratelist.find(
+  //    x => x.websettingsid ==
+  //      this.PaymentEditDetails.Paymentrateid
+  //  );
+
+  //  if (selectedRate) {
+
+  //    const hours =
+  //      Number(this.PaymentEditDetails.totalhours) || 0;
+
+  //    const rate =
+  //      Number(selectedRate.value) || 0;
+
+  //    this.PaymentEditDetails.totalamount =
+  //      hours * rate;
+
+  //  }
+
+  //}
 
   updatePayment(form: NgForm) {
 

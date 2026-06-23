@@ -20,6 +20,8 @@ export class PaymentaddComponent implements OnInit {
   paymentmodeList: any[] = [];
   standardList: any[] = [];
   ratelist: any[] = [];
+  fromdate: any[] = [];
+  todate: any[] = [];
  
 
 
@@ -145,32 +147,60 @@ export class PaymentaddComponent implements OnInit {
 
 
 
-  fetchhours(form: NgForm) {
-    if (form.valid) {
-      // Add logic here to include installments in PaymentAddDetails if your API requires it
+  fetchhours() {
 
-      /*this.PaymentAddDetails.feedetails = this.feesetupList;*/
+    ////if (!this.PaymentAddDetails.fromdate) {
+    ////  this.toastr.error('Please select From Date');
+    ////  return;
+    ////}
 
-      console.log(this.PaymentAddDetails.loghours)
+    ////if (!this.PaymentAddDetails.todate) {
+    ////  this.toastr.error('Please select To Date');
+    ////  return;
+    ////}
 
-      this.paymentService.LoadLogForPaymentPromise(this.PaymentAddDetails).subscribe(result => {
+    this.paymentService.LoadLogForPaymentPromise(this.PaymentAddDetails)
+      .subscribe(result => {
         if (result && result.status) {
-          this.PaymentAddDetails.totalhours = result.data.reduce(
-            (sum, item) => sum + Number(item.loghours),
-            0
-          );
+          this.PaymentAddDetails.totalhours =
+            result.data.reduce(
+              (sum, item) => sum + Number(item.loghours),
+              0
+            );
+          this.toastr.success('Hours fetched successfully');
+          this.calculateAmount(); // recalculate amount automatically
+        }
 
-          this.toastr.success(result.message || 'Hours fetched successfully');
-        } 
       });
-    }  
   }
+
+
+  //fetchhours(form: NgForm) {
+  //  if (form.valid) {
+  //    // Add logic here to include installments in PaymentAddDetails if your API requires it
+
+  //    /*this.PaymentAddDetails.feedetails = this.feesetupList;*/
+
+  //    console.log(this.PaymentAddDetails.loghours)
+
+  //    this.paymentService.LoadLogForPaymentPromise(this.PaymentAddDetails).subscribe(result => {
+  //      if (result && result.status) {
+  //        this.PaymentAddDetails.totalhours = result.data.reduce(
+  //          (sum, item) => sum + Number(item.loghours),
+  //          0
+  //        );
+
+  //        this.toastr.success(result.message || 'Hours fetched successfully');
+  //      } 
+  //    });
+  //  }  
+  //}
 
 
   calculateAmount() {
 
     const selectedRate = this.ratelist.find(
-      x => x.websettingsid == this.PaymentAddDetails.Paymentrateid
+      x => x.websettingsid == this.PaymentAddDetails.rateid
     );
 
     if (selectedRate) {
@@ -192,10 +222,7 @@ export class PaymentaddComponent implements OnInit {
       this.PaymentAddDetails.feedetails = this.feesetupList;
 
       // Company 2 doesn't use dates
-      if (this.PaymentAddDetails.companymasterid == 1) {
-        this.PaymentAddDetails.fromdate = null;
-        this.PaymentAddDetails.todate = null;
-      }
+     
 
       console.log(this.PaymentAddDetails);
 

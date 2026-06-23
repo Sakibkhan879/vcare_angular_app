@@ -24,7 +24,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer Mobile No</b></label>
                   <div class="col-sm-8">
-                    <input class="form-control txt" type="text" name="enquirermobileno" placeholder="Enquirer Mobile Number"
+                    <input class="form-control txt" type="number" name="enquirermobileno" placeholder="Enquirer Mobile Number"
                            [(ngModel)]="enquiryAddDetails.mobileno" required>
                   </div>
                 </div>
@@ -46,7 +46,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Enquirer EmailID</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="email" name="enquireremail" placeholder="Enquirer Email Address"
-                           [(ngModel)]="enquiryAddDetails.email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                           [(ngModel)]="enquiryAddDetails.email"  required>
                   </div>
                 </div>
               </div>
@@ -110,7 +110,7 @@
                   <label for="example-text-dob" class="col-sm-4 col-form-label"><b> DOB</b></label>
 
                   <div class="col-sm-8">
-                    <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="dob" [value]="enquiryAddDetails.dob" [(ngModel)]='enquiryAddDetails.dob' id="dob" placeholder='Enter DOB' required></ejs-datepicker>
+                    <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="dob" [value]="enquiryAddDetails.dob" [(ngModel)]='enquiryAddDetails.dob' id="dob" placeholder='Enter DOB'  ></ejs-datepicker>
                     <small *ngIf="enquiryForm.controls.dob.dirty && !enquiryForm.controls.dob.valid" class="form-text text-danger">
                       DOB is required.
                     </small>

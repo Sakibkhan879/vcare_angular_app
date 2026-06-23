@@ -16,11 +16,12 @@ export function getBaseUrl() {
   // return "https://localhost:44326/";
   //  return "https://localhost:44326/";
     return "https://localhost:44302/";
+ /* return "http://192.168.0.125:8080/";*/
 }
 
 //if (window) {
 //  window.console.log = function () { };
-//}
+//}                                                                                            
 
 
 export function getRazKey() {

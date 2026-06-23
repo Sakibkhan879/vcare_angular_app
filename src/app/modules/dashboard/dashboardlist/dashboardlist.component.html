@@ -4,7 +4,8 @@
 <div class="col-12 mt-4">
   <div class="container mt-4">
 
-    <h4 class="mb-4">Dashboard</h4>
+    <h4  class="mb-4" style="color:rgba(31, 97, 141); font-weight: 500;">Dashboard</h4>
+    <!--<h4 class="mb-4">Dashboard</h4>-->
 
     <!-- Cards -->
     <div class="row text-center">
@@ -41,7 +42,7 @@
         </div>
       </div>
 
-       
+
     </div>
 
     <!-- Table -->
@@ -64,7 +65,7 @@
               <th>Contact No</th>
               <th>Date</th>
               <th>Last Contacted</th>
-             </tr>
+            </tr>
           </thead>
           <tbody>
             <tr *ngFor="let details of enquiryDetails; index as i">
@@ -73,7 +74,7 @@
               <td>{{details.mobileno}}</td>
               <td>{{details.enquirydate}}</td>
               <td>{{details.lastcontacted}}</td>
-               
+
             </tr>
           </tbody>
         </table>

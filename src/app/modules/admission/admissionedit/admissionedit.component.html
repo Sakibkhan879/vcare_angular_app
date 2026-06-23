@@ -150,11 +150,7 @@
             </div>
           </div>
         </div>-->
-          </form>
-
-
-
-          <form name="form" #admissionForm="ngForm" novalidate>
+          
 
             <div class="p-2 mb-3 mt-3 text-dark" style="background-color: #d1e2f3;">
               <h6 class="m-0">Parent Information</h6>
@@ -171,10 +167,10 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Mother Name</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Mother Name</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="mothername" placeholder="Enter Mother Name"
-                           [(ngModel)]="admissionEditDetails.mothername">
+                           [(ngModel)]="admissionEditDetails.mothername" required>
                   </div>
                 </div>
               </div>
@@ -191,10 +187,10 @@
               </div>
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b>Mother Mobile Number</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Mother Mobile Number</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="mothermno" placeholder="Enter Mother Mother Number"
-                           [(ngModel)]="admissionEditDetails.motherphoneno">
+                           [(ngModel)]="admissionEditDetails.motherphoneno" required>
                   </div>
                 </div>
               </div>
@@ -204,7 +200,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Father Occupation</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.fatheroccupationid" name="fatheroccid" placeholder="Select Type" required>
+                    <ng-select [(ngModel)]="admissionEditDetails.fatheroccupationid" name="fatheroccid" placeholder="Select Type"  >
                       <ng-option *ngFor="let prog of occupationList" [value]="prog.websettingsid">
                         {{prog.value}}
                       </ng-option>
@@ -216,7 +212,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b>Mother Occupation</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="admissionEditDetails.motheroccupationid" name="motheroccid" placeholder="Select Type" required>
+                    <ng-select [(ngModel)]="admissionEditDetails.motheroccupationid" name="motheroccid" placeholder="Select Type"  >
                       <ng-option *ngFor="let prog of occupationList" [value]="prog.websettingsid">
                         {{prog.value}}
                       </ng-option>
@@ -231,7 +227,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Email Address</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="fatheremail" placeholder="Enter Father Email Address"
-                           [(ngModel)]="admissionEditDetails.fatheremail" required>
+                           [(ngModel)]="admissionEditDetails.fatheremail"  >
                   </div>
                 </div>
               </div>
@@ -251,7 +247,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b>Organisation Name</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="fatherorganizationname" placeholder="Enter Father Organisation Name"
-                           [(ngModel)]="admissionEditDetails.fatherorganizationname" required>
+                           [(ngModel)]="admissionEditDetails.fatherorganizationname"  >
                   </div>
                 </div>
               </div>
@@ -285,7 +281,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Address</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="studentaddress" placeholder="Enter Student Address"
-                           [(ngModel)]="admissionEditDetails.fulladdress" required>
+                           [(ngModel)]="admissionEditDetails.fulladdress"  >
                   </div>
                 </div>
               </div>
@@ -296,10 +292,10 @@
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Postal Code</b></label>
+                  <label class="col-sm-4 col-form-label text-right"><b> Postal Code</b></label>
                   <div class="col-sm-8">
                     <input class="form-control txt" type="text" name="postalcode" placeholder="411052"
-                           [(ngModel)]="admissionEditDetails.postalcode" required>
+                           [(ngModel)]="admissionEditDetails.postalcode"  >
                   </div>
                 </div>
               </div>
