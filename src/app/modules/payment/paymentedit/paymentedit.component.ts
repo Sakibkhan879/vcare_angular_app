@@ -74,9 +74,7 @@ export class PaymenteditComponent implements OnInit, AfterViewInit {
     loadProm.subscribe((result: any) => {       
       this.feesetupList = result.data.Table1;
       if (result && result.status && result.data) {
-        this.PaymentEditDetails = result.data[0];     
-
-        console.log("Payment Details:", this.PaymentEditDetails);
+        this.PaymentEditDetails = result.data[0];              
         this.PaymentEditDetails = result.data.Table[0];
         this.admissionEditDetails.standardid = this.PaymentEditDetails.standardid;
         this.feesetupList = result.data.Table1 || [];
@@ -163,11 +161,9 @@ export class PaymenteditComponent implements OnInit, AfterViewInit {
 
 
   calculateAmount() {
-
     const selectedRate = this.ratelist.find(
       x => x.websettingsid == this.PaymentEditDetails.rateid
     );
-
     if (selectedRate) {
       const hours = Number(this.PaymentEditDetails.totalhours) || 0;
       const rate = Number(selectedRate.value) || 0;
@@ -203,11 +199,14 @@ export class PaymenteditComponent implements OnInit, AfterViewInit {
   //}
 
   updatePayment(form: NgForm) {
-
     if (form.valid) {
-
       this.PaymentEditDetails.feedetails =
-        this.feesetupList;
+        this.feesetupList.filter(x => x.ischecked === true);
+
+      if (this.PaymentEditDetails.totalamount <= 0) {
+        this.toastr.error('Please select at least one installment');
+        return;
+      }
 
       this.paymentService
         .paymentUpdatePromise(this.PaymentEditDetails)

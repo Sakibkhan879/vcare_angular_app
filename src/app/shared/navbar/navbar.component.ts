@@ -16,7 +16,7 @@ declare var $;
 })
 export class NavbarComponent implements AfterViewInit {
 isCompanyInvalid: boolean = false;
-  notificationDetails: any = {};
+ /* notificationDetails: any = {};*/
   changepasswordDetails: any = {};
   yearData: any = {};
   userData: any = {};
@@ -24,7 +24,7 @@ isCompanyInvalid: boolean = false;
   companymasterid: number = 0; 
   yearList: any[] = [];
   companyList: any[] = [];
-  notificationList: any[] = [];
+  /*notificationList: any[] = [];*/
 
   ngAfterViewInit() {
   
@@ -80,8 +80,8 @@ isCompanyInvalid: boolean = false;
   }
 
   refreshPage() {
-    this.loadNotificationCount();
-    this.loadAllNotification();
+    //this.loadNotificationCount();
+    //this.loadAllNotification();
     this.financialyearSelectedValue();
      this.checkCompanySelection();
   }
@@ -223,27 +223,27 @@ checkCompanySelection() {
     });
   }
 
-  loadNotificationCount() {
-    var loadNotificationCountProm = this.notificationService.loadCountofNotificationPromise()
-    loadNotificationCountProm.subscribe(result => {
-      if (result && result.status && result.data) {
-        this.notificationDetails.notificationtotalcount = result.data.Table[0].notificationtotalcount;
-      } else {
-        this.toastr.error(result.message);
-      }
-    })
-  }
+  //loadNotificationCount() {
+  //  var loadNotificationCountProm = this.notificationService.loadCountofNotificationPromise()
+  //  loadNotificationCountProm.subscribe(result => {
+  //    if (result && result.status && result.data) {
+  //      this.notificationDetails.notificationtotalcount = result.data.Table[0].notificationtotalcount;
+  //    } else {
+  //      this.toastr.error(result.message);
+  //    }
+  //  })
+  //}
 
-  loadAllNotification() {
-    var loadNotificationProm = this.notificationService.loadAllNotificationListPromise()
-    loadNotificationProm.subscribe(result => {
-      if (result && result.status && result.data) {
-        this.notificationList = result.data.Table;
-      } else {
-        this.toastr.error(result.message);
-      }
-    })
-  }
+  //loadAllNotification() {
+  //  var loadNotificationProm = this.notificationService.loadAllNotificationListPromise()
+  //  loadNotificationProm.subscribe(result => {
+  //    if (result && result.status && result.data) {
+  //      this.notificationList = result.data.Table;
+  //    } else {
+  //      this.toastr.error(result.message);
+  //    }
+  //  })
+  //}
 
   goToPage(a) {
     switch (a) {
@@ -253,9 +253,9 @@ checkCompanySelection() {
       case "subscription":
         this._router.navigate(['app/subscription']);
         break;
-      case "notification":
-        this._router.navigate(['app/notification']);
-        break;
+      //case "notification":
+      //  this._router.navigate(['app/notification']);
+      //  break;
       case "logout":
         localStorage.clear();
         this._router.navigate(['']);

@@ -204,6 +204,7 @@ export class DashboardlistComponent implements OnInit {
   // LIFECYCLE & NAVIGATION
   // ==========================================
   ngOnInit() {
+
     this.loadDashboardData();
     this.eventService.loadMainDashboardData.subscribe(() => {
       console.log('Dashboard Refresh Triggered');

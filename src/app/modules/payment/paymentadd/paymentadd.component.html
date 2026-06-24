@@ -270,7 +270,7 @@
     <div class="col-12 mt-4">
       <div class="row mb-3 align-items-center">
         <div class="col-6">
-          <h4 style="color:rgba(31, 97, 141); font-weight: 700;">Preschool Payment Entry</h4>
+          <h4 style="color:rgba(31, 97, 141); font-weight: 700;">Payment Entry</h4>
         </div>
       </div>
 
@@ -351,7 +351,7 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Program Name</b></label>
                 <div class="col-sm-8">
-                  <ng-select [(ngModel)]="admissionEditDetails.standardid" name="standardid" placeholder="Select Standard" readonly="[true]"  >
+                  <ng-select [(ngModel)]="admissionEditDetails.standardid" name="standardid" placeholder="Select Standard" readonly="[true]">
                     <ng-option *ngFor="let prog of standardList" [value]="prog.websettingsid">
                       {{prog.value}}
                     </ng-option>
@@ -369,29 +369,32 @@
             </div>
           </div>
 
-          <!-- FEE SETUP -->
-          <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
-            <h6 class="m-0 font-weight-bold">Fee Installments</h6>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label text-right"><b>Select Installment</b></label>
-                <div class="col-sm-10 d-flex align-items-center">
-                  <div *ngFor="let fee of feesetupList;" class="form-check form-check-inline mr-4">
-                    <input class="form-check-input" type="checkbox" [name]="'feesetup_' + fee.feesetupid" [id]="fee.feesetupid"
-                           [(ngModel)]="fee.ischecked" (change)="calculateTotal()">
-                    <label class="form-check-label" [for]="fee.feesetupid">{{ fee.particularname }}</label>
+
+
+          <form #paymentForm="ngForm" novalidate>
+
+            <!-- FEE SETUP -->
+            <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
+              <h6 class="m-0 font-weight-bold">Fee Installments</h6>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label text-right"><b>Select Installment</b></label>
+                  <div class="col-sm-10 d-flex align-items-center">
+                    <div *ngFor="let fee of feesetupList;" class="form-check form-check-inline mr-4">
+                      <input class="form-check-input" type="checkbox" [name]="'feesetup_' + fee.feesetupid" [id]="fee.feesetupid"
+                             [(ngModel)]="fee.ischecked" (change)="calculateTotal()" >
+                      <label class="form-check-label" [for]="fee.feesetupid">{{ fee.particularname }}</label>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
+            
 
-
-          <!-- TRANSACTION ENTRY -->
-          <form #paymentForm="ngForm" novalidate>
+            <!-- TRANSACTION ENTRY -->
             <div class="p-2 mb-3 mt-4 text-dark" style="background-color: #d1e2f3;">
               <h6 class="m-0 font-weight-bold">Transaction Entry</h6>
             </div>
@@ -402,7 +405,7 @@
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Amount</b></label>
                   <div class="col-sm-8">
                     <input type="number" name="totalAmount" class="form-control" placeholder="0.00"
-                           [value]="totalPayableAmount" [(ngModel)]="PaymentAddDetails.totalamount" readonly  >
+                           [value]="totalPayableAmount" [(ngModel)]="PaymentAddDetails.totalamount" readonly required>
                   </div>
                 </div>
               </div>
@@ -410,7 +413,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Date</b></label>
                   <div class="col-sm-8">
-                    <ejs-datepicker format='dd-MM-yyyy' name="paymentdate" [(ngModel)]='PaymentAddDetails.paymentdate'  ></ejs-datepicker>
+                    <ejs-datepicker format='dd-MM-yyyy' name="paymentdate" [(ngModel)]='PaymentAddDetails.paymentdate'></ejs-datepicker>
                   </div>
                 </div>
               </div>
@@ -421,7 +424,7 @@
                 <div class="form-group row">
                   <label class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span>Payment Mode</b></label>
                   <div class="col-sm-8">
-                    <ng-select [(ngModel)]="PaymentAddDetails.paymentmodeid" name="paymentmodeid" placeholder="Select Mode"  >
+                    <ng-select [(ngModel)]="PaymentAddDetails.paymentmodeid" name="paymentmodeid" placeholder="Select Mode" required>
                       <ng-option *ngFor="let mode of paymentmodeList" [value]="mode.websettingsid">
                         {{mode.value}}
                       </ng-option>

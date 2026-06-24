@@ -55,7 +55,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     this.utilityService.getWebSettingByDomainPromise('PROGRAM')
       .subscribe(result => {
         this.programList = result.data || [];
-        console.log('Program List', this.programList);
+        
       });
   }
 
@@ -63,7 +63,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     this.genderList = [];
     this.utilityService.getWebSettingByDomainPromise('GENDER')     .subscribe(result => {
         this.genderList = result.data || [];
-        console.log('Gender List', this.genderList);
+       /* console.log('Gender List', this.genderList);*/
       });
   }
  
@@ -89,7 +89,7 @@ export class EnquiryeditComponent implements OnInit, AfterViewInit {
     loadProm.subscribe(result => {
       if (result && result.status && result.data && result.data.length > 0) {
         this.enquiryEditDetails = result.data[0];
-        console.log('Loaded Data:', this.enquiryEditDetails);
+       /* console.log('Loaded Data:', this.enquiryEditDetails);*/
         this.cdr.markForCheck();
       } else {
         this.toastr.error('Failed to load enquiry details.');

@@ -67,13 +67,12 @@ export class LogeditComponent implements OnInit {
       .LoadLogDetailsByIdPromise(obj)
       .subscribe({
         next: (result: any) => {
-
-          console.log("LOAD RESULT:", result);
+ 
           if (result?.status && result?.data?.length > 0) {
 
             this.LogEditDetails = result.data[0];
 
-            console.log("LOG LOADED:", this.LogEditDetails);
+            
 
           } else {
             this.toastr.error("No data found for this log");

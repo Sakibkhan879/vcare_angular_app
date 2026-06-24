@@ -102,7 +102,7 @@ export class LoglistComponent implements AfterViewInit {
       .subscribe({
         next: (result: any) => {
 
-          console.log(result);
+           
 
           if (result?.issuccess === 1 || result?.status) {
 

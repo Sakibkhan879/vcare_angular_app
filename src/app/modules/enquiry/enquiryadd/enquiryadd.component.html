@@ -80,7 +80,7 @@
               </div>-->
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label for="example-text-enquirydate" class="col-sm-4 col-form-label"><b> Enquiry Date</b></label>
+                  <label for="example-text-enquirydate" class="col-sm-4 col-form-label text-right"><b><span class="text-danger mr-1">*</span> Enquiry Date</b></label>
 
                   <div class="col-sm-8">
                     <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="enquirydate" [value]="enquiryAddDetails.enquirydate" [(ngModel)]='enquiryAddDetails.enquirydate' id="enquirydate" placeholder='Enter date' required></ejs-datepicker>
@@ -107,7 +107,7 @@
             <div class="row mt-2">
               <div class="col-lg-6">
                 <div class="form-group row">
-                  <label for="example-text-dob" class="col-sm-4 col-form-label"><b> DOB</b></label>
+                  <label for="example-text-dob" class="col-sm-4 col-form-label text-right"><b> DOB</b></label>
 
                   <div class="col-sm-8">
                     <ejs-datepicker format='dd-MM-yyyy' class="erp-date" name="dob" [value]="enquiryAddDetails.dob" [(ngModel)]='enquiryAddDetails.dob' id="dob" placeholder='Enter DOB'  ></ejs-datepicker>
@@ -170,7 +170,7 @@
                 <div class="form-group row">
                   <label class="col-sm-5 col-form-label text-right" style="line-height: 1.2;"><b><span class="text-danger mr-1">*</span>How did you come to know about Vcare?</b></label>
                   <div class="col-sm-7">
-                     <ng-select [(ngModel)]="enquiryAddDetails.sourceid" name="sourceid" placeholder="Select" required>
+                     <ng-select [(ngModel)]="enquiryAddDetails.sourceid" name="sourceid" placeholder="Select"  >
                         <ng-option *ngFor="let src of sourceList" [value]="src.websettingsid">
                           {{src.value}}
                         </ng-option>

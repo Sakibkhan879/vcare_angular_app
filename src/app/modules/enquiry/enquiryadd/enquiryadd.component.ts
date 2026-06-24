@@ -35,8 +35,7 @@ export class EnquiryaddComponent implements OnInit {
   // FIXED: Only ONE version of this function exists now
   enquiryAddData(form: NgForm) {
     // EASY DEBUG: Press F12 in browser -> Console tab
-    console.log("Data being sent to API:", this.enquiryAddDetails);
-
+ 
     if (form.valid) {
       this.enquiryService.enquiryAddPromise(this.enquiryAddDetails).subscribe(result => {
         if (result && result.status) {

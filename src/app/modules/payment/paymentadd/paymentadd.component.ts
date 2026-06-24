@@ -89,7 +89,7 @@ export class PaymentaddComponent implements OnInit {
 
   selectStudent(student: any) {
     // Use a descriptive name for the logic of fetching details
-    console.log(student.studentmasterid)
+    
     this.LoadStudentForPayment(student);
   }
 
@@ -122,8 +122,7 @@ export class PaymentaddComponent implements OnInit {
    
 
   calculateTotal() {
-    console.log(this.feesetupList);
-
+ 
     // Calculate the sum
     const sum = this.feesetupList
       .filter(fee => fee.ischecked)
@@ -223,8 +222,10 @@ export class PaymentaddComponent implements OnInit {
 
       // Company 2 doesn't use dates
      
-
-      console.log(this.PaymentAddDetails);
+      if (this.PaymentAddDetails.totalamount <= 0) {
+        this.toastr.error('Please select at least one installment');
+        return;
+      }
 
       this.paymentService.paymentsmadeAddPromise(this.PaymentAddDetails)
         .subscribe(result => {
